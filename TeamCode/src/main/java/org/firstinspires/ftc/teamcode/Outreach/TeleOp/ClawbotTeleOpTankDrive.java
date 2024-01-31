@@ -5,18 +5,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.NewClawbotHardware;
+import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
 
-@TeleOp(name="OUTREACH New Clawbot Teleop", group="Outreach")
-public class NewClawBotTeleOpNoPID extends OpMode {
+@TeleOp(name="Clawbot TeleOp Tank Drive", group="Outreach")
+public class ClawbotTeleOpTankDrive extends OpMode {
     public static final int MINIMUM_LOW_ARM_VOLTAGE = 2;
     public static final double MAXIMUM_MEDIUM_ARM_VOLTAGE = 3.2;
     public static final double MINIMUM_HIGH_ARM_VOLTAGE = 1.3;
-    private static NewClawbotHardware.ArmState armState = NewClawbotHardware.ArmState.GROUND;
+    private static ClawbotHardware.ArmState armState = ClawbotHardware.ArmState.GROUND;
     public enum ClawState {OPEN, CLOSED}
     public enum Controller{PARTICIPANT, MASTER}
-    public NewClawbotTeleOp.ClawState currentClawState = NewClawbotTeleOp.ClawState.CLOSED;
+    public ClawState currentClawState = ClawState.CLOSED;
     public ImprovedGamepad gamepad;
     public double voltage;
     public ImprovedGamepad masterGamepad;
@@ -26,7 +26,7 @@ public class NewClawBotTeleOpNoPID extends OpMode {
 
     public boolean gamepadOverride = false;
 
-    NewClawbotHardware robot = new NewClawbotHardware();
+    ClawbotHardware robot = new ClawbotHardware();
     @Override
     public void init() {
         gamepad = new ImprovedGamepad(gamepad1, gamepadTimer, "gamepad");
@@ -64,15 +64,15 @@ public class NewClawBotTeleOpNoPID extends OpMode {
 
         switch(currentClawState){
             case OPEN:
-                robot.claw.setPosition(NewClawbotHardware.CLAW_OPEN_POSITION);
+                robot.claw.setPosition(ClawbotHardware.CLAW_OPEN_POSITION);
                 if(gamepadInControl.b.isInitialPress()){
-                    currentClawState = NewClawbotTeleOp.ClawState.CLOSED;
+                    currentClawState = ClawState.CLOSED;
                 }
                 break;
             case CLOSED:
-                robot.claw.setPosition(NewClawbotHardware.CLAW_CLOSED_POSITION);
+                robot.claw.setPosition(ClawbotHardware.CLAW_CLOSED_POSITION);
                 if(gamepadInControl.b.isInitialPress()){
-                    currentClawState = NewClawbotTeleOp.ClawState.OPEN;
+                    currentClawState = ClawState.OPEN;
                 }
                 break;
         }
@@ -81,19 +81,19 @@ public class NewClawBotTeleOpNoPID extends OpMode {
             case GROUND:
             case LOW:
                 if (gamepadInControl.dpad_up.isInitialPress()) {
-                    armState = NewClawbotHardware.ArmState.MEDIUM;
+                    armState = ClawbotHardware.ArmState.MEDIUM;
                 }
                 break;
             case MEDIUM:
                 if (gamepadInControl.dpad_up.isInitialPress()) {
-                    armState = NewClawbotHardware.ArmState.HIGH;
+                    armState = ClawbotHardware.ArmState.HIGH;
                 } else if (gamepadInControl.dpad_down.isInitialPress()) {
-                    armState = NewClawbotHardware.ArmState.LOW;
+                    armState = ClawbotHardware.ArmState.LOW;
                 }
                 break;
             case HIGH:
                 if (gamepadInControl.dpad_down.isInitialPress()) {
-                    armState = NewClawbotHardware.ArmState.MEDIUM;
+                    armState = ClawbotHardware.ArmState.MEDIUM;
                 }
         }
 
@@ -107,15 +107,15 @@ public class NewClawBotTeleOpNoPID extends OpMode {
         double scaleFactor = 12/result;
         voltage = scaleFactor * robot.potentiometer.getVoltage();
 
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && (armState == NewClawbotHardware.ArmState.GROUND || armState == NewClawbotHardware.ArmState.LOW) ) {
-            armState = NewClawbotHardware.ArmState.LOW;
+        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && (armState == ClawbotHardware.ArmState.GROUND || armState == ClawbotHardware.ArmState.LOW) ) {
+            armState = ClawbotHardware.ArmState.LOW;
         }
 
-        if (armState == NewClawbotHardware.ArmState.MEDIUM && voltage > MINIMUM_LOW_ARM_VOLTAGE) {
+        if (armState == ClawbotHardware.ArmState.MEDIUM && voltage > MINIMUM_LOW_ARM_VOLTAGE) {
             robot.arm.setPower(0.5);
-        } else if (armState == NewClawbotHardware.ArmState.LOW && voltage < MAXIMUM_MEDIUM_ARM_VOLTAGE) {
+        } else if (armState == ClawbotHardware.ArmState.LOW && voltage < MAXIMUM_MEDIUM_ARM_VOLTAGE) {
             robot.arm.setPower(-0.2);
-        } else if (armState == NewClawbotHardware.ArmState.HIGH && voltage > MINIMUM_HIGH_ARM_VOLTAGE) {
+        } else if (armState == ClawbotHardware.ArmState.HIGH && voltage > MINIMUM_HIGH_ARM_VOLTAGE) {
             robot.arm.setPower(0.3);
         } else {
             robot.arm.setPower(0);

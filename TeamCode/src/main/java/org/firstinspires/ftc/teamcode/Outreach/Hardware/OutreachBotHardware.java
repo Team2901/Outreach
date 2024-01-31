@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OutreachBotOneHardware {
+public class OutreachBotHardware {
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
     public Servo claw = null;

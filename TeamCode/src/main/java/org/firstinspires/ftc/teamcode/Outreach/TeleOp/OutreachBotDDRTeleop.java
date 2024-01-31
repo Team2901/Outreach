@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.DDRDance;
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.DanceObserver;
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotOneHardware;
+import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
 import org.firstinspires.ftc.teamcode.Shared.Gamepad.DDRGamepad;
 import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
 
 import java.util.ArrayList;
 
 @TeleOp(name = "New DDR Outreach", group = "Outreach")
-public class NewDDRDanceTeleOp extends OpMode {
-    OutreachBotOneHardware robot = new OutreachBotOneHardware();
+public class OutreachBotDDRTeleop extends OpMode {
+    OutreachBotHardware robot = new OutreachBotHardware();
     ElapsedTime timer = new ElapsedTime();
     static DDRGamepad participantGamepad;
     ImprovedGamepad masterGamepad;
@@ -86,13 +86,13 @@ public class NewDDRDanceTeleOp extends OpMode {
         switch (robot.currentClawState) {
             case OPEN:
                 if (participantGamepad.topRightArrow.isInitialPress() || participantGamepad.topLeftArrow.isInitialPress() || masterGamepad.b.isInitialPress()) {
-                    robot.currentClawState = OutreachBotOneHardware.ClawState.CLOSED;
+                    robot.currentClawState = OutreachBotHardware.ClawState.CLOSED;
                 }
                 robot.claw.setPosition(robot.OPEN_POSITON);
                 break;
             case CLOSED:
                 if (participantGamepad.topRightArrow.isInitialPress() || participantGamepad.topLeftArrow.isInitialPress() || masterGamepad.b.isInitialPress()) {
-                    robot.currentClawState = OutreachBotOneHardware.ClawState.OPEN;
+                    robot.currentClawState = OutreachBotHardware.ClawState.OPEN;
                 }
                 robot.claw.setPosition(robot.CLOSED_POSITON);
                 break;

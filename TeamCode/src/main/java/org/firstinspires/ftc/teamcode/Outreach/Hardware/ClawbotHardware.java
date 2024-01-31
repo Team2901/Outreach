@@ -1,95 +1,43 @@
 package org.firstinspires.ftc.teamcode.Outreach.Hardware;
 
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.AnalogInput;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
- * Created by Kearneyg20428 on 2/7/2017.
+ * Created by Allenn23825 on 1/24/2023.
  */
-//NEVER USE THIS HARDWARE CLASS EVER AGAIN: PLEASE USE NewClawBotHardware
 public class ClawbotHardware {
-
-    public static final double MID_SERVO = 0.5;
-    public static final double ARM_UP_POWER = 1;
-    public static final double ARM_DOWN_POWER = -0.5;
-    public static final double MIN_SAFE_CLAW_OFFSET = 0;
-    public static final double MAX_SAFE_CLAW_OFFSET = .4;
-    private final ElapsedTime period = new ElapsedTime();
-    public DcMotor leftMotor = null;
-    public DcMotor rightMotor = null;
-    public DcMotor armMotor = null;
-    public Servo claw = null;
-    private HardwareMap hwMap = null;
+    public static final double CLAW_OPEN_POSITION = 0.2;
+    public static final double CLAW_CLOSED_POSITION = 0.48;
+    public DcMotorEx leftDrive;
+    public DcMotorEx rightDrive;
+    public DcMotorEx arm;
+    public Servo claw;
     public AnalogInput potentiometer;
-    public static final double ARM_DOWN_VOLTAGE = 3.3;
-    public static final double ARM_UP_VOLTAGE = 1.35;
-    public static final double DANCE_ARM_DOWN_VOLTAGE = 3;
-    public static final double DANCE_ARM_UP_VOLTAGE = 1.35;
-    public static final double ARM_DOWN_SAFE_MOVEMENT_VOLTAGE = 3;
-    public List<String> failedHardware = new ArrayList<>();
+    public enum ArmState {GROUND, LOW, MEDIUM, HIGH}
+    public enum ClawState {OPEN, CLOSED}
 
-    public void init(HardwareMap ahwMap) {
-        // Save reference to Hardware map
-        hwMap = ahwMap;
 
-        // Define and Initialize Motors
-        leftMotor = hwMap.dcMotor.get("left_drive");
-        rightMotor = hwMap.dcMotor.get("right_drive");
-        armMotor = hwMap.dcMotor.get("left_arm");
-        leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.FORWARD);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
-        armMotor.setPower(0);
-
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        claw = hwMap.servo.get("left_hand");
-
+    public void init(HardwareMap hardwareMap) {
+        leftDrive = hardwareMap.get(DcMotorEx.class, "leftDrive");
+        rightDrive = hardwareMap.get(DcMotorEx.class, "rightDrive");
+        arm = hardwareMap.get(DcMotorEx.class, "arm");
+        leftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+        arm.setPower(0);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        claw = hardwareMap.servo.get("claw");
         claw.setPosition(0);
-
-        //Set up the potentiometer
-        potentiometer = getAnalogInput(hwMap, "potentiometer");
+        potentiometer = hardwareMap.analogInput.get("potentiometer");
     }
-
-    public void waitForTick(long periodMs) {
-
-        long remaining = periodMs - (long) period.milliseconds();
-
-        // sleep for the remaining portion of the regular cycle period.
-        if (remaining > 0) {
-            try {
-                Thread.sleep(remaining);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-
-        // Reset the cycle clock for the next pass.
-        period.reset();
-
-    }
-
-    public AnalogInput getAnalogInput(HardwareMap hwMap, String name){
-        try{
-            return hwMap.analogInput.get(name);
-        } catch(Exception e){
-            failedHardware.add(name);
-            //return new MockAnalogInput();
-            return null;
-        }
-    }
-
 }
