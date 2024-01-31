@@ -4,15 +4,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class OutreachBotHardware {
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;
     public Servo claw = null;
     private HardwareMap hardwareMap = null;
-    public List<String> failedHardware = new ArrayList<>();
     public enum ClawState { OPEN, CLOSED }
     public final double CLOSED_POSITON = 0;
     public final double OPEN_POSITON = 0.75;

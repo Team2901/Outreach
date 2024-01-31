@@ -16,10 +16,10 @@ public class ClawbotVoltageTester extends OpMode {
 
     @Override
     public void loop() {
-        telemetryStuff();
+        telemetry();
     }
 
-    public void telemetryStuff() {
+    public void telemetry() {
         telemetry.addData("Voltage", robot.potentiometer.getVoltage());
         telemetry.update();
     }

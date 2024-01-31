@@ -4,6 +4,8 @@ import org.firstinspires.ftc.teamcode.Shared.Gamepad.DDRGamepad;
 
 import java.util.ArrayList;
 
+//Created by Jerdenn25556
+
 public class DDRDance {
 
     public enum DanceMoves { LEFT, RIGHT, UP, DOWN, X, O }

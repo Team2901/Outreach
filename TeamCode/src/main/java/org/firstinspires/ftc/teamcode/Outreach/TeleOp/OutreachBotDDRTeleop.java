@@ -12,7 +12,8 @@ import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
 
 import java.util.ArrayList;
 
-@TeleOp(name = "New DDR Outreach", group = "Outreach")
+//Created by jerdenn25556
+@TeleOp(name = "Outreach Bot DDR Dance", group = "Outreach")
 public class OutreachBotDDRTeleop extends OpMode {
     OutreachBotHardware robot = new OutreachBotHardware();
     ElapsedTime timer = new ElapsedTime();

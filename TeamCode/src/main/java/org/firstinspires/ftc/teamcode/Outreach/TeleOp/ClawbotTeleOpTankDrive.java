@@ -10,13 +10,7 @@ import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
 
 @TeleOp(name="Clawbot TeleOp Tank Drive", group="Outreach")
 public class ClawbotTeleOpTankDrive extends OpMode {
-    public static final int MINIMUM_LOW_ARM_VOLTAGE = 2;
-    public static final double MAXIMUM_MEDIUM_ARM_VOLTAGE = 3.2;
-    public static final double MINIMUM_HIGH_ARM_VOLTAGE = 1.3;
-    private static ClawbotHardware.ArmState armState = ClawbotHardware.ArmState.GROUND;
-    public enum ClawState {OPEN, CLOSED}
     public enum Controller{PARTICIPANT, MASTER}
-    public ClawState currentClawState = ClawState.CLOSED;
     public ImprovedGamepad gamepad;
     public double voltage;
     public ImprovedGamepad masterGamepad;
@@ -62,38 +56,38 @@ public class ClawbotTeleOpTankDrive extends OpMode {
         robot.leftDrive.setPower(-gamepadInControl.left_stick_y.getValue());
         robot.rightDrive.setPower(-gamepadInControl.right_stick_y.getValue());
 
-        switch(currentClawState){
+        switch(robot.currentClawState){
             case OPEN:
                 robot.claw.setPosition(ClawbotHardware.CLAW_OPEN_POSITION);
                 if(gamepadInControl.b.isInitialPress()){
-                    currentClawState = ClawState.CLOSED;
+                    robot.currentClawState = ClawbotHardware.ClawState.CLOSED;
                 }
                 break;
             case CLOSED:
                 robot.claw.setPosition(ClawbotHardware.CLAW_CLOSED_POSITION);
                 if(gamepadInControl.b.isInitialPress()){
-                    currentClawState = ClawState.OPEN;
+                    robot.currentClawState = ClawbotHardware.ClawState.OPEN;
                 }
                 break;
         }
 
-        switch (armState) {
+        switch (robot.currentArmState) {
             case GROUND:
             case LOW:
                 if (gamepadInControl.dpad_up.isInitialPress()) {
-                    armState = ClawbotHardware.ArmState.MEDIUM;
+                    robot.currentArmState = ClawbotHardware.ArmState.MEDIUM;
                 }
                 break;
             case MEDIUM:
                 if (gamepadInControl.dpad_up.isInitialPress()) {
-                    armState = ClawbotHardware.ArmState.HIGH;
+                    robot.currentArmState = ClawbotHardware.ArmState.HIGH;
                 } else if (gamepadInControl.dpad_down.isInitialPress()) {
-                    armState = ClawbotHardware.ArmState.LOW;
+                    robot.currentArmState = ClawbotHardware.ArmState.LOW;
                 }
                 break;
             case HIGH:
                 if (gamepadInControl.dpad_down.isInitialPress()) {
-                    armState = ClawbotHardware.ArmState.MEDIUM;
+                    robot.currentArmState = ClawbotHardware.ArmState.MEDIUM;
                 }
         }
 
@@ -107,26 +101,32 @@ public class ClawbotTeleOpTankDrive extends OpMode {
         double scaleFactor = 12/result;
         voltage = scaleFactor * robot.potentiometer.getVoltage();
 
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && (armState == ClawbotHardware.ArmState.GROUND || armState == ClawbotHardware.ArmState.LOW) ) {
-            armState = ClawbotHardware.ArmState.LOW;
+        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+            robot.currentArmState = ClawbotHardware.ArmState.LOW;
         }
 
-        if (armState == ClawbotHardware.ArmState.MEDIUM && voltage > MINIMUM_LOW_ARM_VOLTAGE) {
+        armPositionUpdate();
+
+        telemetry();
+
+    }
+
+    public void armPositionUpdate() {
+        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0 || gamepadInControl.left_stick_x.getValue() != 0 || gamepadInControl.right_stick_x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+            robot.currentArmState = ClawbotHardware.ArmState.LOW;
+        }
+
+        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MINIMUM_LOW_ARM_VOLTAGE) {
             robot.arm.setPower(0.5);
-        } else if (armState == ClawbotHardware.ArmState.LOW && voltage < MAXIMUM_MEDIUM_ARM_VOLTAGE) {
+        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
             robot.arm.setPower(-0.2);
-        } else if (armState == ClawbotHardware.ArmState.HIGH && voltage > MINIMUM_HIGH_ARM_VOLTAGE) {
-            robot.arm.setPower(0.3);
         } else {
             robot.arm.setPower(0);
         }
 
-        if ((gamepadInControl.left_stick_y.getValue() != 0 || gamepadInControl.right_stick_y.getValue() != 0) && voltage > 2.7) {
+        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
             robot.arm.setPower(0.3);
         }
-
-        telemetry();
-
     }
 
     public void telemetry() {
