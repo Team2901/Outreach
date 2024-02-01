@@ -22,7 +22,9 @@ public class OutreachBotDDRTeleop extends OpMode {
     double speedBoostFactor = 1;
     boolean spining = false;
     static ArrayList<DDRDance> dances = new ArrayList<DDRDance>();
-    static DDRDance testDance;
+    static DDRDance speedDance;
+    static DDRDance konamiCode;
+    static DDRDance spinDance;
     boolean overide = false;
     private double leftSpeed = 0;
     private double rightSpeed = 0;
@@ -49,11 +51,14 @@ public class OutreachBotDDRTeleop extends OpMode {
             overide = !overide;
         }
 
+        telemetry();
+
         if (overide) {
             return;
         }
 
         updateDances();
+
         leftSpeed = 0;
         rightSpeed = 0;
 
@@ -109,12 +114,34 @@ public class OutreachBotDDRTeleop extends OpMode {
         testDanceMoves.add(DDRDance.DanceMoves.LEFT);
         testDanceMoves.add(DDRDance.DanceMoves.RIGHT);
         testDanceMoves.add(DDRDance.DanceMoves.UP);
-        testDance = new DDRDance(testDanceMoves, participantGamepad, new SpeedDanceObserver());
-        dances.add(testDance);
+        speedDance = new DDRDance(testDanceMoves, participantGamepad, new SpeedDanceObserver());
+        dances.add(speedDance);
+        ArrayList konamiCodeMoves = new ArrayList<DDRDance.DanceMoves>();
+        testDanceMoves.add(DDRDance.DanceMoves.UP);
+        testDanceMoves.add(DDRDance.DanceMoves.UP);
+        testDanceMoves.add(DDRDance.DanceMoves.DOWN);
+        testDanceMoves.add(DDRDance.DanceMoves.DOWN);
+        testDanceMoves.add(DDRDance.DanceMoves.LEFT);
+        testDanceMoves.add(DDRDance.DanceMoves.RIGHT);
+        testDanceMoves.add(DDRDance.DanceMoves.LEFT);
+        testDanceMoves.add(DDRDance.DanceMoves.RIGHT);
+        konamiCode = new DDRDance(konamiCodeMoves, participantGamepad, new SuperSpeedDanceObserver());
+        dances.add(konamiCode);
+        ArrayList spinDanceMoves = new ArrayList<DDRDance.DanceMoves>();
+        testDanceMoves.add(DDRDance.DanceMoves.X);
+        testDanceMoves.add(DDRDance.DanceMoves.UP);
+        testDanceMoves.add(DDRDance.DanceMoves.O);
+        testDanceMoves.add(DDRDance.DanceMoves.RIGHT);
+        testDanceMoves.add(DDRDance.DanceMoves.DOWN);
+        testDanceMoves.add(DDRDance.DanceMoves.LEFT);
+        spinDance = new DDRDance(spinDanceMoves, participantGamepad, new SpinDanceObserver());
+        dances.add(spinDance);
     }
 
     public void updateDances() {
-        testDance.update();
+        for (int i = 0; i < dances.size(); i++) {
+            dances.get(i).update();
+        }
     }
 
     private class SpeedDanceObserver implements DanceObserver
@@ -148,12 +175,18 @@ public class OutreachBotDDRTeleop extends OpMode {
         @Override
         public void onCompleted() {
             spining = true;
-
         }
 
         @Override
         public void onSuccess() {
             //none
         }
+    }
+
+    public void telemetry(){
+        telemetry.addData("Speed Dance Progress", speedDance.progress);
+        telemetry.addData("Konami Dance Progress", konamiCode.progress);
+        telemetry.addData("Spin Dance Progress", spinDance.progress);
+        telemetry.update();
     }
 }

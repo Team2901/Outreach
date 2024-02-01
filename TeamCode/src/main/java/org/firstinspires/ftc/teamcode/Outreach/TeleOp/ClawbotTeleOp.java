@@ -153,7 +153,7 @@ public class ClawbotTeleOp extends OpMode {
                 if(gamepadInControl.b.isInitialPress()){
                     robot.currentClawState = ClawbotHardware.ClawState.OPEN;
                 } else if (gamepadInControl.left_bumper.getValue() || gamepadInControl.left_trigger.getValue() > 0) {
-                    robot.currentClawState = ClawbotHardware.ClawState.CLOSED;
+                    robot.currentClawState = ClawbotHardware.ClawState.OPEN;
                 }
                 break;
         }
