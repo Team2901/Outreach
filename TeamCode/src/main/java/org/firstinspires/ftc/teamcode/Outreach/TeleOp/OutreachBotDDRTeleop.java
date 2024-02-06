@@ -28,10 +28,14 @@ public class OutreachBotDDRTeleop extends OpMode {
     boolean overide = false;
     private double leftSpeed = 0;
     private double rightSpeed = 0;
+    private boolean reversedTurns = false;
+    private boolean reversed = false;
     @Override
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Master override", "X");
+        telemetry.addData("Reserve Forward", "A");
+        telemetry.addData("Reserve Turns", "B");
         telemetry.update();
         participantGamepad = new DDRGamepad(this.gamepad1, this.timer, "GP1");
         masterGamepad = new ImprovedGamepad(this.gamepad2, this.timer, "GP2");
@@ -57,37 +61,79 @@ public class OutreachBotDDRTeleop extends OpMode {
             return;
         }
 
-        updateDances();
+        //updateDances();
 
         leftSpeed = 0;
         rightSpeed = 0;
 
         if (participantGamepad.upArrow.getValue()) {
-            leftSpeed += .5 * speedBoostFactor;
-            rightSpeed += .5 * speedBoostFactor;
+            if (!reversed) {
+                leftSpeed = .5 * speedBoostFactor;
+                rightSpeed = .5 * speedBoostFactor;
+            } else {
+                leftSpeed = -.5 * speedBoostFactor;
+                rightSpeed = -.5 * speedBoostFactor;
+            }
+
         } else if (participantGamepad.downArrow.getValue()) {
-            leftSpeed += -.5 * speedBoostFactor;
-            rightSpeed += -.5 * speedBoostFactor;
+            if (!reversed) {
+                leftSpeed = -.5 * speedBoostFactor;
+                rightSpeed = -.5 * speedBoostFactor;
+            } else {
+                leftSpeed = .5 * speedBoostFactor;
+                rightSpeed = .5 * speedBoostFactor;
+            }
+
         }
 
         if (participantGamepad.leftArrow.getValue()) {
-            if (rightSpeed == 0 && rightSpeed == 0) {
-                leftSpeed = -.4;
-                rightSpeed = .4;
-            } else if (leftSpeed > 0){
-                rightSpeed = .65;
+            if (reversedTurns) {
+                if (rightSpeed == 0 && rightSpeed == 0) {
+                    leftSpeed = -.4;
+                    rightSpeed = .4;
+                } else if (leftSpeed > 0){
+                    rightSpeed = .65;
+                } else {
+                    rightSpeed = -.65;
+                }
             } else {
-                rightSpeed = -.65;
+                if (rightSpeed == 0 && rightSpeed == 0) {
+                    leftSpeed = .4;
+                    rightSpeed = -.4;
+                } else if (leftSpeed > 0){
+                    rightSpeed = -.65;
+                } else {
+                    rightSpeed = .65;
+                }
             }
+
         } else if (participantGamepad.rightArrow.getValue()) {
-            if (rightSpeed == 0 && rightSpeed == 0) {
-                rightSpeed = -.4;
-                leftSpeed = .4;
-            } else if (rightSpeed > 0) {
-                leftSpeed = .65;
+            if (reversedTurns) {
+                if (rightSpeed == 0 && rightSpeed == 0) {
+                    rightSpeed = -.4;
+                    leftSpeed = .4;
+                } else if (rightSpeed > 0) {
+                    leftSpeed = .65;
+                } else {
+                    leftSpeed = -.65;
+                }
             } else {
-                leftSpeed = -.65;
+                if (rightSpeed == 0 && rightSpeed == 0) {
+                    rightSpeed = .4;
+                    leftSpeed = -.4;
+                } else if (rightSpeed > 0) {
+                    leftSpeed = -.65;
+                } else {
+                    leftSpeed = .65;
+                }
             }
+
+        }
+
+        if (masterGamepad.b.isInitialPress()) {
+            reversedTurns = !reversedTurns;
+        } else if (masterGamepad.a.isInitialPress()) {
+            reversed = !reversed;
         }
         switch (robot.currentClawState) {
             case OPEN:
@@ -184,9 +230,9 @@ public class OutreachBotDDRTeleop extends OpMode {
     }
 
     public void telemetry(){
-        telemetry.addData("Speed Dance Progress", speedDance.progress);
-        telemetry.addData("Konami Dance Progress", konamiCode.progress);
-        telemetry.addData("Spin Dance Progress", spinDance.progress);
-        telemetry.update();
+//        telemetry.addData("Speed Dance Progress", speedDance.progress);
+//        telemetry.addData("Konami Dance Progress", konamiCode.progress);
+//        telemetry.addData("Spin Dance Progress", spinDance.progress);
+//        telemetry.update();
     }
 }
