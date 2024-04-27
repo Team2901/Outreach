@@ -20,7 +20,7 @@ public class OutreachBotDDRTeleop extends OpMode {
     static DDRGamepad participantGamepad;
     ImprovedGamepad masterGamepad;
     double speedBoostFactor = 1;
-    boolean spining = false;
+    boolean spinning = false;
     static ArrayList<DDRDance> dances = new ArrayList<DDRDance>();
     static DDRDance speedDance;
     static DDRDance konamiCode;
@@ -34,8 +34,8 @@ public class OutreachBotDDRTeleop extends OpMode {
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("Master override", "X");
-        telemetry.addData("Reserve Forward", "A");
-        telemetry.addData("Reserve Turns", "B");
+        telemetry.addData("Reverse Forward", "A");
+        telemetry.addData("Reverse Turns", "B");
         telemetry.update();
         participantGamepad = new DDRGamepad(this.gamepad1, this.timer, "GP1");
         masterGamepad = new ImprovedGamepad(this.gamepad2, this.timer, "GP2");
@@ -87,8 +87,8 @@ public class OutreachBotDDRTeleop extends OpMode {
         }
 
         if (participantGamepad.leftArrow.getValue()) {
-            if (reversedTurns) {
-                if (rightSpeed == 0 && rightSpeed == 0) {
+            if (!reversedTurns) {
+                if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = -.4;
                     rightSpeed = .4;
                 } else if (leftSpeed > 0){
@@ -97,7 +97,7 @@ public class OutreachBotDDRTeleop extends OpMode {
                     rightSpeed = -.65;
                 }
             } else {
-                if (rightSpeed == 0 && rightSpeed == 0) {
+                if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = .4;
                     rightSpeed = -.4;
                 } else if (leftSpeed > 0){
@@ -108,8 +108,8 @@ public class OutreachBotDDRTeleop extends OpMode {
             }
 
         } else if (participantGamepad.rightArrow.getValue()) {
-            if (reversedTurns) {
-                if (rightSpeed == 0 && rightSpeed == 0) {
+            if (!reversedTurns) {
+                if (rightSpeed == 0 && leftSpeed == 0) {
                     rightSpeed = -.4;
                     leftSpeed = .4;
                 } else if (rightSpeed > 0) {
@@ -118,7 +118,7 @@ public class OutreachBotDDRTeleop extends OpMode {
                     leftSpeed = -.65;
                 }
             } else {
-                if (rightSpeed == 0 && rightSpeed == 0) {
+                if (rightSpeed == 0 && leftSpeed == 0) {
                     rightSpeed = .4;
                     leftSpeed = -.4;
                 } else if (rightSpeed > 0) {
@@ -220,7 +220,7 @@ public class OutreachBotDDRTeleop extends OpMode {
     {
         @Override
         public void onCompleted() {
-            spining = true;
+            spinning = true;
         }
 
         @Override
