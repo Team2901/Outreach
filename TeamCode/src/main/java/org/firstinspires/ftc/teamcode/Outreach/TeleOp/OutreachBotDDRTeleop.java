@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
 import java.util.ArrayList;
 
 //Created by jerdenn25556
-@TeleOp(name = "Outreach Bot DDR Dance", group = "Outreach")
+@TeleOp(name = "Outreach Bot DDR Dance V3", group = "Outreach")
 public class OutreachBotDDRTeleop extends OpMode {
     OutreachBotHardware robot = new OutreachBotHardware();
     ElapsedTime timer = new ElapsedTime();
@@ -68,6 +68,7 @@ public class OutreachBotDDRTeleop extends OpMode {
 
         if (participantGamepad.upArrow.getValue()) {
             if (!reversed) {
+                telemetry.addData("upArrow", participantGamepad.upArrow);
                 leftSpeed = .5 * speedBoostFactor;
                 rightSpeed = .5 * speedBoostFactor;
             } else {
@@ -140,15 +141,17 @@ public class OutreachBotDDRTeleop extends OpMode {
                 if (participantGamepad.topRightArrow.isInitialPress() || participantGamepad.topLeftArrow.isInitialPress() || masterGamepad.b.isInitialPress()) {
                     robot.currentClawState = OutreachBotHardware.ClawState.CLOSED;
                 }
-                robot.claw.setPosition(robot.OPEN_POSITON);
+                robot.claw.setPosition(robot.OPEN_POSITION);
                 break;
             case CLOSED:
                 if (participantGamepad.topRightArrow.isInitialPress() || participantGamepad.topLeftArrow.isInitialPress() || masterGamepad.b.isInitialPress()) {
                     robot.currentClawState = OutreachBotHardware.ClawState.OPEN;
                 }
-                robot.claw.setPosition(robot.CLOSED_POSITON);
+                robot.claw.setPosition(robot.CLOSED_POSITION);
                 break;
         }
+        telemetry.addData("left speed", leftSpeed);
+        telemetry.addData("right speed", rightSpeed);
         robot.rightDrive.setPower(rightSpeed);
         robot.leftDrive.setPower(leftSpeed);
 
