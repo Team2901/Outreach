@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.DDRGamepad;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 public class ClawbotDDRTeleop extends OpMode {
     public ImprovedGamepad gamepad;

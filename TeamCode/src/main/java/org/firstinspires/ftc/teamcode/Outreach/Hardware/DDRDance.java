@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Outreach.Hardware;
 
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.DDRGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
 
 import java.util.ArrayList;
 

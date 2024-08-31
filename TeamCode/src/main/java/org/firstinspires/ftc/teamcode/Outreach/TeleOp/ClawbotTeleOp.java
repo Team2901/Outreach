@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
  /*
  * New Control Clawbot Teleop: Similar to NewClawBotTeleOp but it implements a new control method
  * For simplicity we will have 4 motor directions: RF(Right forward), RB(Right Backwards), LF(Left
@@ -59,8 +59,8 @@ public class ClawbotTeleOp extends OpMode {
         gamepad.update();
         masterGamepad.update();
         overrideControllerCheck();
-        rightPower = (gamepadInControl.left_stick_y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick_y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.right_stick_x.getValue() / ClawbotHardware.TURN_WEIGHT) - (gamepadInControl.left_stick_x.getValue() / ClawbotHardware.TURN_WEIGHT);
-        leftPower = (gamepadInControl.left_stick_y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick_y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick_x.getValue() / ClawbotHardware.TURN_WEIGHT) + (gamepadInControl.right_stick_x.getValue() / ClawbotHardware.TURN_WEIGHT);
+        rightPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
+        leftPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) + (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         polarAxisValueTurning();
         robot.leftDrive.setPower(-leftPower);
         robot.rightDrive.setPower(-rightPower);
@@ -93,15 +93,15 @@ public class ClawbotTeleOp extends OpMode {
          * method and loop, see how it controls in the situation above, then add it back.
          */
 
-        if (gamepadInControl.left_stick_y.getValue() > .9 && gamepadInControl.right_stick_y.getValue() < -.9) {
-            if ((gamepadInControl.left_stick_x.getValue() < .25 && gamepadInControl.left_stick_x.getValue() > -.25) && (gamepadInControl.right_stick_x.getValue() < .25 && gamepadInControl.right_stick_x.getValue() > -.25) ) {
+        if (gamepadInControl.left_stick.y.getValue() > .9 && gamepadInControl.right_stick.y.getValue() < -.9) {
+            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25) ) {
                 leftPower = 1;
                 rightPower = -1;
             }
         }
 
-        if (gamepadInControl.right_stick_y.getValue() > .9 && gamepadInControl.left_stick_y.getValue() < -.9 ) {
-            if ((gamepadInControl.left_stick_x.getValue() < .25 && gamepadInControl.left_stick_x.getValue() > -.25) && (gamepadInControl.right_stick_x.getValue() < .25 && gamepadInControl.right_stick_x.getValue() > -.25)) {
+        if (gamepadInControl.right_stick.y.getValue() > .9 && gamepadInControl.left_stick.y.getValue() < -.9 ) {
+            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25)) {
                 leftPower = -1;
                 rightPower = 1;
             }
@@ -121,7 +121,7 @@ public class ClawbotTeleOp extends OpMode {
     }
 
     public void armPositionUpdate() {
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0 || gamepadInControl.left_stick_x.getValue() != 0 || gamepadInControl.right_stick_x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0 || gamepadInControl.left_stick.x.getValue() != 0 || gamepadInControl.right_stick.x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
             robot.currentArmState = ClawbotHardware.ArmState.LOW;
         }
 

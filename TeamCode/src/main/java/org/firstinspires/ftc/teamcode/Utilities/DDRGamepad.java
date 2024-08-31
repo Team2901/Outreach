@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Shared.Gamepad;
+package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,28 +9,28 @@ public class DDRGamepad {
     private final String name;
 
     // Dpad left
-    public BooleanButton leftArrow;
+    public Button leftArrow;
 
     // b button
-    public BooleanButton downArrow;
+    public Button downArrow;
 
     // Left bumper
-    public BooleanButton topLeftArrow;
+    public Button topLeftArrow;
 
     // Right bumper
-    public BooleanButton topRightArrow;
+    public Button topRightArrow;
 
     // Left stick button
-    public BooleanButton upArrow;
+    public Button upArrow;
 
     // Right stick button
-    public BooleanButton rightArrow;
+    public Button rightArrow;
 
     // Start button
-    public BooleanButton startButton;
+    public Button startButton;
 
     // Using a to start robot
-    public BooleanButton a;
+    public Button a;
 
     public DDRGamepad(final Gamepad hardwareGamepad, final ElapsedTime timer, final String name) {
 
@@ -38,14 +38,14 @@ public class DDRGamepad {
         this.timer = timer;
         this.name = (null != name) ? name : "";
 
-        this.leftArrow = new BooleanButton(String.format("%s_left_arrow", this.name));
-        this.downArrow = new BooleanButton(String.format("%s_down_arrow", this.name));
-        this.topLeftArrow = new BooleanButton(String.format("%s_top_left_arrow", this.name));
-        this.topRightArrow = new BooleanButton(String.format("%s_top_right_arrow", this.name));
-        this.upArrow = new BooleanButton(String.format("%s_up_arrow", this.name));
-        this.rightArrow = new BooleanButton(String.format("%s_right_arrow", this.name));
-        this.startButton = new BooleanButton(String.format("%s_start_button", this.name));
-        this.a = new BooleanButton(String.format("%s_a_button", this.name));
+        this.leftArrow = new Button(String.format("%s_left_arrow", this.name));
+        this.downArrow = new Button(String.format("%s_down_arrow", this.name));
+        this.topLeftArrow = new Button(String.format("%s_top_left_arrow", this.name));
+        this.topRightArrow = new Button(String.format("%s_top_right_arrow", this.name));
+        this.upArrow = new Button(String.format("%s_up_arrow", this.name));
+        this.rightArrow = new Button(String.format("%s_right_arrow", this.name));
+        this.startButton = new Button(String.format("%s_start_button", this.name));
+        this.a = new Button(String.format("%s_a_button", this.name));
     }
 
     public void update() {

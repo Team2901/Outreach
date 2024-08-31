@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 @TeleOp(name="Clawbot TeleOp Tank Drive", group="Outreach")
 public class ClawbotTeleOpTankDrive extends OpMode {
@@ -53,8 +53,8 @@ public class ClawbotTeleOpTankDrive extends OpMode {
             gamepadInControl = gamepad;
         }
 
-        robot.leftDrive.setPower(-gamepadInControl.left_stick_y.getValue());
-        robot.rightDrive.setPower(-gamepadInControl.right_stick_y.getValue());
+        robot.leftDrive.setPower(-gamepadInControl.left_stick.y.getValue());
+        robot.rightDrive.setPower(-gamepadInControl.right_stick.y.getValue());
 
         switch(robot.currentClawState){
             case OPEN:
@@ -101,7 +101,7 @@ public class ClawbotTeleOpTankDrive extends OpMode {
         double scaleFactor = 12/result;
         voltage = scaleFactor * robot.potentiometer.getVoltage();
 
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
             robot.currentArmState = ClawbotHardware.ArmState.LOW;
         }
 
@@ -112,7 +112,7 @@ public class ClawbotTeleOpTankDrive extends OpMode {
     }
 
     public void armPositionUpdate() {
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0 || gamepadInControl.left_stick_x.getValue() != 0 || gamepadInControl.right_stick_x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0 || gamepadInControl.left_stick.x.getValue() != 0 || gamepadInControl.right_stick.x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
             robot.currentArmState = ClawbotHardware.ArmState.LOW;
         }
 
@@ -124,7 +124,7 @@ public class ClawbotTeleOpTankDrive extends OpMode {
             robot.arm.setPower(0);
         }
 
-        if ((gamepadInControl.right_stick_y.getValue() != 0 || gamepadInControl.left_stick_y.getValue() != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
+        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
             robot.arm.setPower(0.3);
         }
     }

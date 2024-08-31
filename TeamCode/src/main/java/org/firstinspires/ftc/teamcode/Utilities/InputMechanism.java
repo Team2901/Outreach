@@ -1,44 +1,50 @@
-package org.firstinspires.ftc.teamcode.Shared.Gamepad;
+package org.firstinspires.ftc.teamcode.Utilities;
 
 
-public abstract class Button<T> {
+public abstract class InputMechanism<T> {
 
     protected final String name;
     protected T rawValue;
 
     protected Boolean pressed = null;
-    protected Double lastUpdateTime;
+    protected Double lastUpdateTime = null;
     protected Double lastChangeTime = null;
     private int pressedCounts = 0;
     private int releaseCounts = 0;
 
-    public Button(final String name) {
+    public InputMechanism(final String name) {
         this.name = name;
     }
 
     public void update(final T updateValue, final double updateTime) {
+        // Call the abstract method to determine if this input mechanism is interacted-with (pressed)
+        final boolean updatePressed = isPressed(updateValue);
 
-        final boolean newIsPressed = isPressed(updateValue);
-
-        if (pressed != null && newIsPressed != pressed) {
-            this.lastChangeTime = updateTime;
-        }
-
-        this.rawValue = updateValue;
-        this.pressed = newIsPressed;
-        this.lastUpdateTime = updateTime;
-
+        // Update the counts
         if (isInitialValueChange()) {
-            if (isPressed()) {
+            if (pressed == null) {
+                // do nothing
+            }
+            else if (pressed) {
                 this.pressedCounts++;
             } else {
                 this.releaseCounts++;
             }
         }
+
+        // Update the last changed time
+        if ((pressed == null) || (updatePressed != pressed)) {
+            this.lastChangeTime = updateTime;
+        }
+
+        // Update the values
+        rawValue = updateValue;
+        pressed = updatePressed;
+        lastUpdateTime = updateTime;
     }
 
     /**
-     * Get the button's name
+     * Get the name
      *
      * @return the button's name
      */
@@ -97,7 +103,7 @@ public abstract class Button<T> {
      * @return true if the button is transitioning from one state to another
      */
     public boolean isInitialValueChange() {
-        return lastUpdateTime.equals(lastChangeTime);
+        return (lastUpdateTime == null) || lastUpdateTime.equals(lastChangeTime);
     }
 
     /**
@@ -188,5 +194,3 @@ public abstract class Button<T> {
         return sb.toString();
     }
 }
-
-

@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.DDRDance;
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.DanceObserver;
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.DDRGamepad;
-import org.firstinspires.ftc.teamcode.Shared.Gamepad.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
+import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 import java.util.ArrayList;
 
@@ -47,8 +47,8 @@ public class OutreachBotDDRTeleop extends OpMode {
         participantGamepad.update();
         masterGamepad.update();
         if (masterGamepad.areButtonsActive()) {
-            robot.rightDrive.setPower(masterGamepad.left_stick_y.getValue());
-            robot.leftDrive.setPower(masterGamepad.right_stick_y.getValue());
+            robot.rightDrive.setPower(masterGamepad.left_stick.y.getValue());
+            robot.leftDrive.setPower(masterGamepad.right_stick.y.getValue());
         }
 
         if (masterGamepad.x.isInitialPress()) {
