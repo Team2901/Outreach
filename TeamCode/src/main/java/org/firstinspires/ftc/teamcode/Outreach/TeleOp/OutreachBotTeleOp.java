@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
 import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
+@SuppressWarnings("unused")
 @TeleOp(name = "Outreach Bot TeleOp", group = "Outreach")
 public class OutreachBotTeleOp extends OpMode {
     OutreachBotHardware robot = new OutreachBotHardware();

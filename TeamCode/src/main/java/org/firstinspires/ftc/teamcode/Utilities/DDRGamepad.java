@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Utilities;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@SuppressWarnings("unused")
 public class DDRGamepad {
     private final Gamepad hardwareGamepad;
     private final ElapsedTime timer;

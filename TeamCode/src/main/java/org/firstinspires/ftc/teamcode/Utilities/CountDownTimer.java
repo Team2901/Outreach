@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@SuppressWarnings("unused")
 public class CountDownTimer {
     ElapsedTime elapsedTime;
     int targetTime;
@@ -9,6 +10,7 @@ public class CountDownTimer {
     public CountDownTimer(ElapsedTime.Resolution resolution){
         elapsedTime = new ElapsedTime(resolution);
     }
+
     public void setTargetTime(int targetTime){
         elapsedTime.reset();
         this.targetTime = targetTime;
@@ -24,10 +26,6 @@ public class CountDownTimer {
     }
 
     public boolean hasRemainingTime(){
-        if(getRemainingTime() > 0){
-            return true;
-        } else {
-            return false;
-        }
+        return getRemainingTime() > 0;
     }
 }

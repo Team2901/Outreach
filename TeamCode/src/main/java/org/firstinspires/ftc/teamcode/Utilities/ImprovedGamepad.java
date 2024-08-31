@@ -3,27 +3,19 @@ package org.firstinspires.ftc.teamcode.Utilities;
 import android.util.Log;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 @Config
+@SuppressWarnings("unused")
 public class ImprovedGamepad {
-
-
     private static String Tag = "ImprovedGamepad";
     public final static double DEFAULT_STICK_DEAD_ZONE = 0.01;
 
@@ -133,8 +125,8 @@ public class ImprovedGamepad {
 
         double time = timer.time();
 
-        left_stick.update(Double.valueOf(hardwareGamepad.left_stick_x), Double.valueOf(hardwareGamepad.left_stick_y), hardwareGamepad.left_stick_button, time);
-        right_stick.update(Double.valueOf(hardwareGamepad.right_stick_x), Double.valueOf(hardwareGamepad.right_stick_y), hardwareGamepad.right_stick_button, time);
+        left_stick.update((double) hardwareGamepad.left_stick_x, (double) hardwareGamepad.left_stick_y, hardwareGamepad.left_stick_button, time);
+        right_stick.update((double) hardwareGamepad.right_stick_x, (double) hardwareGamepad.right_stick_y, hardwareGamepad.right_stick_button, time);
 
         dpad_up.update(hardwareGamepad.dpad_up, time);
         dpad_down.update(hardwareGamepad.dpad_down, time);
@@ -152,8 +144,8 @@ public class ImprovedGamepad {
 
         left_bumper.update(hardwareGamepad.left_bumper, time);
         right_bumper.update(hardwareGamepad.right_bumper, time);
-        left_trigger.update(Double.valueOf(hardwareGamepad.left_trigger), time);
-        right_trigger.update(Double.valueOf(hardwareGamepad.right_trigger), time);
+        left_trigger.update((double) hardwareGamepad.left_trigger, time);
+        right_trigger.update((double) hardwareGamepad.right_trigger, time);
     }
 
     public boolean areButtonsActive(){
@@ -173,7 +165,7 @@ public class ImprovedGamepad {
         public void run() {
             Log.d(Tag, "Watchdog starting");
             try {
-                Boolean food = null;
+                Boolean food;
                 do {
                     food = watchdogFood.poll(1, TimeUnit.SECONDS);
                     if (food == null) {

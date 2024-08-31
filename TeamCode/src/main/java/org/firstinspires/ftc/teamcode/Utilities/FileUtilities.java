@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class FileUtilities {
     public final static String PICTURES_FOLDER_NAME = "Team";
     public final static String TEAM_FOLDER_NAME = "Team";
@@ -51,7 +52,7 @@ public class FileUtilities {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
-            return Integer.valueOf(line);
+            return Integer.parseInt(line);
         }
     }
 

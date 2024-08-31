@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
 import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
+@SuppressWarnings("unused")
 public class ClawbotDDRTeleop extends OpMode {
     public ImprovedGamepad gamepad;
     public double voltage;

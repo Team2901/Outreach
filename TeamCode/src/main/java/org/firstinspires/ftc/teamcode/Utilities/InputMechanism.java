@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Utilities;
 
 
+import androidx.annotation.NonNull;
+
+@SuppressWarnings("unused")
 public abstract class InputMechanism<T> {
 
     protected final String name;
@@ -185,6 +188,7 @@ public abstract class InputMechanism<T> {
     protected abstract boolean isPressed(final T rawValue);
 
     @Override
+    @NonNull
     public String toString() {
         final StringBuilder sb = new StringBuilder("Button{");
         sb.append("name='").append(name).append('\'');

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
+@SuppressWarnings("unused")
 public class OutreachBotHardware {
     public DcMotor leftDrive = null;
     public DcMotor rightDrive = null;

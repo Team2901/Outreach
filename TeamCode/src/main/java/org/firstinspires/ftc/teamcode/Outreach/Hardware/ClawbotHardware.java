@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Allenn23825 on 1/24/2023.
  */
+@SuppressWarnings("unused")
 public class ClawbotHardware {
     public static final double MINIMUM_LOW_ARM_VOLTAGE = 2.0;
     public static final double MAXIMUM_MEDIUM_ARM_VOLTAGE = 3.2;

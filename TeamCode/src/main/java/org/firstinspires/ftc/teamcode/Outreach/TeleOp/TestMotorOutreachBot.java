@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
-
+@SuppressWarnings("unused")
 @TeleOp(name = "TestMotorOutreachBot", group = "Outreach")
 public class TestMotorOutreachBot extends OpMode {
     public DcMotor leftDrive = null;

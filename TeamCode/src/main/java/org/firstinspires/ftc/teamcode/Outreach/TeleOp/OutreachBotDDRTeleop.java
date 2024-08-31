@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 import java.util.ArrayList;
 
-//Created by jerdenn25556
+@SuppressWarnings("unused")
 @TeleOp(name = "Outreach Bot DDR Dance V3", group = "Outreach")
 public class OutreachBotDDRTeleop extends OpMode {
     OutreachBotHardware robot = new OutreachBotHardware();
@@ -30,6 +30,7 @@ public class OutreachBotDDRTeleop extends OpMode {
     private double rightSpeed = 0;
     private boolean reversedTurns = false;
     private boolean reversed = false;
+
     @Override
     public void init() {
         robot.init(hardwareMap);
