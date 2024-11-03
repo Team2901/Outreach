@@ -108,16 +108,16 @@ public class ClawbotDDRTeleop extends OpMode {
 
     public void armPositionUpdate() {
 
-        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MINIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.5);
-        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
-            robot.arm.setPower(-0.2);
-        } else {
-            robot.arm.setPower(0);
-        }
-
-        if ((rightPower != 0 || leftPower != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.3);
-        }
+//        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MAX) {
+//            robot.arm.setPower(0.5);
+//        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
+//            robot.arm.setPower(-0.2);
+//        } else {
+//            robot.arm.setPower(0);
+//        }
+//
+//        if ((rightPower != 0 || leftPower != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
+//            robot.arm.setPower(0.3);
+//        }
     }
 }

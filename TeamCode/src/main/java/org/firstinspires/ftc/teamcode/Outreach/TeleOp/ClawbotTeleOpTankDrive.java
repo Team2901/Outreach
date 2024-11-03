@@ -113,21 +113,21 @@ public class ClawbotTeleOpTankDrive extends OpMode {
     }
 
     public void armPositionUpdate() {
-        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0 || gamepadInControl.left_stick.x.getValue() != 0 || gamepadInControl.right_stick.x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
-            robot.currentArmState = ClawbotHardware.ArmState.LOW;
-        }
-
-        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MINIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.5);
-        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
-            robot.arm.setPower(-0.2);
-        } else {
-            robot.arm.setPower(0);
-        }
-
-        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.3);
-        }
+//        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0 || gamepadInControl.left_stick.x.getValue() != 0 || gamepadInControl.right_stick.x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
+//            robot.currentArmState = ClawbotHardware.ArmState.LOW;
+//        }
+//
+//        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MINIMUM_LOW_ARM_VOLTAGE) {
+//            robot.arm.setPower(0.5);
+//        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
+//            robot.arm.setPower(-0.2);
+//        } else {
+//            robot.arm.setPower(0);
+//        }
+//
+//        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
+//            robot.arm.setPower(0.3);
+//        }
     }
 
     public void telemetry() {
