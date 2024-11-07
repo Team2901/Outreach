@@ -20,7 +20,8 @@ public class ClawbotHardware {
     public static double Kp = 0;
     public static double Ki = 0;
     public static double Kd = 0;
-
+    public static double Kg = 0;
+    public static double VOLTAGE_TO_RADIANS = -.7216;
     public static final double MINIMUM_ARM_TARGET = 1.341;
     public static final double TURN_WEIGHT = 1.25;
     public static final double STRAIGHT_POWER_WEIGHT = 2.0;

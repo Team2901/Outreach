@@ -88,6 +88,8 @@ public class ClawbotTeleOp extends OpMode {
         telemetry.addData("Move Arm Down", "D-pad down");
         telemetry.addData("Master Gamepad Override", "X");
         telemetry.addData("Override", gamepadOverride);
+        telemetry.addData("Goal Position", goalPositon);
+        telemetry.addData("Acutal Position", voltage);
         telemetry.update();
     }
 
@@ -129,36 +131,34 @@ public class ClawbotTeleOp extends OpMode {
 
 
     public void armPositionUpdate() {
-        if (gamepadInControl.dpad_up.isPressed() && goalPositon < ClawbotHardware.RESTING_MAXIMUM_ARM_TARGET) {
-            goalPositon -= .1;
+        if (gamepadInControl.dpad_up.isPressed()) {
+            goalPositon -= .01;
         } else if (gamepad.dpad_down.isPressed() && goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
-            goalPositon += .1;
+            goalPositon += .005;
         }
 // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
 
-        while (voltage != goalPositon) {
-            voltageRegulation();
+        voltageRegulation();
 
             // calculate the error
-            double error = voltage - goalPositon;
+        double error = voltage - goalPositon;
 
             // rate of change of the error
-            double derivative = (error - lastError) / timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
 
             // sum of all error over time
-            integralSum = integralSum + (error * timer.seconds());
+        integralSum = integralSum + (error * timer.seconds());
 
-            double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+        double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
 
-            robot.arm.setPower(out);
+        robot.arm.setPower(out);
 
-            lastError = error;
+        lastError = error;
 
             // reset the timer for next time
-            PIDtimer.reset();
+        PIDtimer.reset();
 
-        }
     }
 
     public void stateMachineUpdate() {

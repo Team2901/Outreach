@@ -47,6 +47,7 @@ public class ClawbotPidTuner extends OpMode {
         masterGamepad.update();
         overrideControllerCheck();
 
+        updatePIDValues();
         voltageRegulation();
         armPositionUpdate();
         telemetry();
@@ -56,6 +57,7 @@ public class ClawbotPidTuner extends OpMode {
         telemetry.addData("Kp(x/y)", ClawbotHardware.Kp);
         telemetry.addData("Ki(a/b)", ClawbotHardware.Ki);
         telemetry.addData("Kd(left/right trigger)", ClawbotHardware.Kd);
+        telemetry.addData("Kg(left/right dpad)", ClawbotHardware.Kg);
         telemetry.addData("Increments(left/right bumper)", increaseAmount);
         telemetry.addData("Goal Voltage", goalPositon);
         telemetry.addData("Actual Voltage", voltage);
@@ -82,6 +84,10 @@ public class ClawbotPidTuner extends OpMode {
             ClawbotHardware.Kd += increaseAmount;
         } else if (gamepadInControl.left_trigger.isInitialPress()) {
             ClawbotHardware.Kd -= increaseAmount;
+        } else if (gamepadInControl.dpad_left.isInitialPress()) {
+            ClawbotHardware.Kg += increaseAmount;
+        } else if (gamepadInControl.dpad_right.isInitialPress()) {
+            ClawbotHardware.Kg -= increaseAmount;
         }
     }
 
@@ -108,7 +114,6 @@ public class ClawbotPidTuner extends OpMode {
 // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
 
-        while (voltage != goalPositon) {
             // calculate the error
             double error = voltage - goalPositon;
 
@@ -118,7 +123,7 @@ public class ClawbotPidTuner extends OpMode {
             // sum of all error over time
             integralSum = integralSum + (error * timer.seconds());
 
-            double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+            double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative) + ClawbotHardware.Kg * Math.cos(ClawbotHardware.VOLTAGE_TO_RADIANS);
 
             robot.arm.setPower(out);
 
@@ -127,7 +132,6 @@ public class ClawbotPidTuner extends OpMode {
             // reset the timer for next time
             PIDtimer.reset();
 
-        }
     }
 
 
