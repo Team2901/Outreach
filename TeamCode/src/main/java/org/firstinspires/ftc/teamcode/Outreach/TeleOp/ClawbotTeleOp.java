@@ -131,32 +131,35 @@ public class ClawbotTeleOp extends OpMode {
 
 
     public void armPositionUpdate() {
+        voltageRegulation();
         if (gamepadInControl.dpad_up.isPressed()) {
             goalPositon -= .01;
         } else if (gamepad.dpad_down.isPressed() && goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
             goalPositon += .005;
         }
-// Elapsed timer class from SDK, please use it, it's epic
+        // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
 
-        voltageRegulation();
-
-            // calculate the error
+        // calculate the error
         double error = voltage - goalPositon;
 
-            // rate of change of the error
+        // rate of change of the error
         double derivative = (error - lastError) / timer.seconds();
 
-            // sum of all error over time
+        // sum of all error over time
         integralSum = integralSum + (error * timer.seconds());
-
-        double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+        double out;
+        if (goalPositon < voltage) {
+            out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+        } else {
+            out = (ClawbotHardware.Kpg * error);
+        }
 
         robot.arm.setPower(out);
 
         lastError = error;
 
-            // reset the timer for next time
+        // reset the timer for next time
         PIDtimer.reset();
 
     }
