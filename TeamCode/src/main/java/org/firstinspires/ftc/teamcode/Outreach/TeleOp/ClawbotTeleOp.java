@@ -46,7 +46,7 @@ public class ClawbotTeleOp extends OpMode {
 
     double lastError = 0;
 
-    double goalPositon = ClawbotHardware.RESTING_MAXIMUM_ARM_TARGET;
+    double goalPositon = 2.5;
 
     ElapsedTime PIDtimer = new ElapsedTime();
 
@@ -132,10 +132,20 @@ public class ClawbotTeleOp extends OpMode {
 
     public void armPositionUpdate() {
         voltageRegulation();
+
         if (gamepadInControl.dpad_up.isPressed()) {
-            goalPositon -= .01;
-        } else if (gamepad.dpad_down.isPressed() && goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
-            goalPositon += .005;
+            if (goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
+                goalPositon -= .01;
+            }
+
+        } else if (gamepad.dpad_down.isPressed()) {
+            if (goalPositon < ClawbotHardware.RESTING_MAXIMUM_ARM_TARGET) {
+                goalPositon += .01;
+            }
+
+        }
+        if (goalPositon > ClawbotHardware.DRIVING_MAXIMUM_ARM_TARGET && (robot.leftDrive.getPower() != 0 || robot.rightDrive.getPower() != 0)) {
+            goalPositon = ClawbotHardware.DRIVING_MAXIMUM_ARM_TARGET;
         }
         // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
@@ -148,12 +158,7 @@ public class ClawbotTeleOp extends OpMode {
 
         // sum of all error over time
         integralSum = integralSum + (error * timer.seconds());
-        double out;
-        if (goalPositon < voltage) {
-            out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
-        } else {
-            out = (ClawbotHardware.Kpg * error);
-        }
+        double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
 
         robot.arm.setPower(out);
 

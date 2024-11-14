@@ -26,6 +26,7 @@ public class ClawbotPidTuner extends OpMode {
     double increaseAmount = .001;
 
     double goalPositon = 2.5;
+    boolean PIDRunning = true;
 
     ElapsedTime PIDtimer = new ElapsedTime();
 
@@ -57,6 +58,7 @@ public class ClawbotPidTuner extends OpMode {
         telemetry.addData("Kp(x/y)", ClawbotHardware.Kp);
         telemetry.addData("Ki(a/b)", ClawbotHardware.Ki);
         telemetry.addData("Kd(left/right trigger)", ClawbotHardware.Kd);
+        telemetry.addData("Toggle Loop(left dpad)", PIDRunning);
         telemetry.addData("Increments(left/right bumper)", increaseAmount);
         telemetry.addData("Goal Voltage", goalPositon);
         telemetry.addData("Actual Voltage", voltage);
@@ -84,9 +86,7 @@ public class ClawbotPidTuner extends OpMode {
         } else if (gamepadInControl.left_trigger.isInitialPress()) {
             ClawbotHardware.Kd -= increaseAmount;
         } else if (gamepadInControl.dpad_left.isInitialPress()) {
-            goalPositon += increaseAmount;
-        } else if (gamepadInControl.dpad_right.isInitialPress()) {
-            goalPositon -= increaseAmount;
+            PIDRunning = !PIDRunning;
         }
     }
 
@@ -105,10 +105,14 @@ public class ClawbotPidTuner extends OpMode {
 
 
     public void armPositionUpdate() {
-        if (gamepadInControl.dpad_up.isPressed() && goalPositon < ClawbotHardware.RESTING_MAXIMUM_ARM_TARGET) {
-            goalPositon -= .1;
-        } else if (gamepadInControl.dpad_down.isPressed() && goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
-            goalPositon += .1;
+        if (!PIDRunning) {
+            robot.arm.setPower(0);
+            return;
+        }
+        if (gamepadInControl.dpad_up.isPressed()) {
+            goalPositon -= increaseAmount;
+        } else if (gamepadInControl.dpad_down.isPressed()) {
+            goalPositon += increaseAmount;
         }
 // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
@@ -121,12 +125,8 @@ public class ClawbotPidTuner extends OpMode {
 
             // sum of all error over time
             integralSum = integralSum + (error * timer.seconds());
-            double out;
-            if (goalPositon < voltage) {
-                out = (ClawbotHardware.Kpg * error);
-            } else {
-                out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
-            }
+
+            double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
 
             robot.arm.setPower(out);
 

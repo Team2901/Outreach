@@ -14,16 +14,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawbotHardware {
     //GOal the robot has full control over the arm no arm set positions
     //Robot arm goes up when driving anf AUTOMATICALLY comes back down after a set time
-    public static final double RESTING_MAXIMUM_ARM_TARGET = 3.275;
-    public static final double DRIVING_MAXIMUM_ARM_TARGET = 3.266;
+    public static final double RESTING_MAXIMUM_ARM_TARGET = 3.17;
+    public static final double DRIVING_MAXIMUM_ARM_TARGET = 3.0;
 
     public static double Kp = 1.5;
-    public static double Ki = .56;
-    public static double Kd = 0;
+    public static double Ki = 0.001;
+    public static double Kd = 0.00002;
 
     public static double Kpg = .45;
 
-    public static final double MINIMUM_ARM_TARGET = 1.341;
+    public static final double MINIMUM_ARM_TARGET = 1.57;
     public static final double TURN_WEIGHT = 1.25;
     public static final double STRAIGHT_POWER_WEIGHT = 2.0;
     public static final double CLAW_OPEN_POSITION = 0.2;
