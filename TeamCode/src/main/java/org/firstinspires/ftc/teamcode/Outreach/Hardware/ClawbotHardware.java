@@ -18,8 +18,9 @@ public class ClawbotHardware {
     public static final double DRIVING_MAXIMUM_ARM_TARGET = 3.0;
 
     public static double Kp = 1.5;
-    public static double Ki = 0.001;
-    public static double Kd = 0.00002;
+    public static double Ki = 0.00;
+    public static double Kd = 0;
+            //0.00002;
 
     public static double Kpg = .45;
 
