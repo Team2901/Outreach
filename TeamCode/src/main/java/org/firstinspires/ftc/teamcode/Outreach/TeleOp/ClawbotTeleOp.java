@@ -42,6 +42,13 @@ public class ClawbotTeleOp extends OpMode {
     public double rightPower = 0;
     public double leftPower = 0;
 
+    double integralSum = 0;
+
+    double lastError = 0;
+
+    double goalPositon = 2.5;
+
+    ElapsedTime PIDtimer = new ElapsedTime();
 
     public boolean gamepadOverride = false;
 
@@ -66,7 +73,6 @@ public class ClawbotTeleOp extends OpMode {
         robot.leftDrive.setPower(-leftPower);
         robot.rightDrive.setPower(-rightPower);
         stateMachineUpdate();
-        voltageRegulation();
         armPositionUpdate();
         telemetry();
     }
@@ -82,6 +88,8 @@ public class ClawbotTeleOp extends OpMode {
         telemetry.addData("Move Arm Down", "D-pad down");
         telemetry.addData("Master Gamepad Override", "X");
         telemetry.addData("Override", gamepadOverride);
+        telemetry.addData("Goal Position", goalPositon);
+        telemetry.addData("Acutal Position", voltage);
         telemetry.update();
     }
 
@@ -121,22 +129,44 @@ public class ClawbotTeleOp extends OpMode {
         voltage = scaleFactor * robot.potentiometer.getVoltage();
     }
 
+
     public void armPositionUpdate() {
-        if ((gamepadInControl.right_stick.y.getValue() != 0 || gamepadInControl.left_stick.y.getValue() != 0 || gamepadInControl.left_stick.x.getValue() != 0 || gamepadInControl.right_stick.x.getValue() != 0) && (robot.currentArmState == ClawbotHardware.ArmState.GROUND || robot.currentArmState == ClawbotHardware.ArmState.LOW) ) {
-            robot.currentArmState = ClawbotHardware.ArmState.LOW;
-        }
+        voltageRegulation();
 
-        if (robot.currentArmState == ClawbotHardware.ArmState.MEDIUM && voltage > ClawbotHardware.MINIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.5);
-        } else if (robot.currentArmState == ClawbotHardware.ArmState.LOW && voltage < ClawbotHardware.MAXIMUM_MEDIUM_ARM_VOLTAGE) {
-            robot.arm.setPower(-0.2);
-        } else {
-            robot.arm.setPower(0);
-        }
+        if (gamepadInControl.dpad_up.isPressed()) {
+            if (goalPositon > ClawbotHardware.MINIMUM_ARM_TARGET) {
+                goalPositon -= .01;
+            }
 
-        if ((rightPower != 0 || leftPower != 0) && voltage > ClawbotHardware.MAXIMUM_LOW_ARM_VOLTAGE) {
-            robot.arm.setPower(0.3);
+        } else if (gamepad.dpad_down.isPressed()) {
+            if (goalPositon < ClawbotHardware.RESTING_MAXIMUM_ARM_TARGET) {
+                goalPositon += .01;
+            }
+
         }
+        if (goalPositon > ClawbotHardware.DRIVING_MAXIMUM_ARM_TARGET && (robot.leftDrive.getPower() != 0 || robot.rightDrive.getPower() != 0)) {
+            goalPositon = ClawbotHardware.DRIVING_MAXIMUM_ARM_TARGET;
+        }
+        // Elapsed timer class from SDK, please use it, it's epic
+        ElapsedTime timer = new ElapsedTime();
+
+        // calculate the error
+        double error = voltage - goalPositon;
+
+        // rate of change of the error
+        double derivative = (error - lastError) / timer.seconds();
+
+        // sum of all error over time
+        integralSum = integralSum + (error * timer.seconds());
+        double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+
+        robot.arm.setPower(out);
+
+        lastError = error;
+
+        // reset the timer for next time
+        PIDtimer.reset();
+
     }
 
     public void stateMachineUpdate() {
@@ -159,19 +189,6 @@ public class ClawbotTeleOp extends OpMode {
                 break;
         }
 
-        switch (robot.currentArmState) {
-            case GROUND:
-            case LOW:
-                if (gamepadInControl.dpad_up.isInitialPress()) {
-                    robot.currentArmState = ClawbotHardware.ArmState.MEDIUM;
-                }
-                break;
-            case MEDIUM:
-                if (gamepadInControl.dpad_down.isInitialPress()) {
-                    robot.currentArmState = ClawbotHardware.ArmState.LOW;
-                }
-                break;
-        }
     }
 
     public void overrideControllerCheck() {

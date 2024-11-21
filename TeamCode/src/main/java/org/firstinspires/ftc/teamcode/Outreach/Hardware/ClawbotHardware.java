@@ -12,10 +12,19 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 @SuppressWarnings("unused")
 public class ClawbotHardware {
-    public static final double MINIMUM_LOW_ARM_VOLTAGE = 2.0;
-    public static final double MAXIMUM_MEDIUM_ARM_VOLTAGE = 3.2;
-    public static final double MAXIMUM_LOW_ARM_VOLTAGE = 2.7;
-    public static final double MINIMUM_HIGH_ARM_VOLTAGE = 1.3;
+    //GOal the robot has full control over the arm no arm set positions
+    //Robot arm goes up when driving anf AUTOMATICALLY comes back down after a set time
+    public static final double RESTING_MAXIMUM_ARM_TARGET = 3.5;
+    public static final double DRIVING_MAXIMUM_ARM_TARGET = 2.5;
+
+    public static double Kp = 0.4;
+    public static double Ki = 0.00;
+    public static double Kd = 0.00001;
+            //0.00002;
+
+    public static double Kpg = .45;
+
+    public static final double MINIMUM_ARM_TARGET = 1.2;
     public static final double TURN_WEIGHT = 1.25;
     public static final double STRAIGHT_POWER_WEIGHT = 2.0;
     public static final double CLAW_OPEN_POSITION = 0.2;
