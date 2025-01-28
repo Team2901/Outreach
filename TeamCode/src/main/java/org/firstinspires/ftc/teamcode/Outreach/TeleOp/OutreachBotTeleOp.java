@@ -32,10 +32,14 @@ public class OutreachBotTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        gamepad.update();
+        masterGamepad.update();
         overrideControllerCheck();
         rightPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         leftPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) + (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         polarAxisValueTurning();
+        robot.leftDrive.setPower(leftPower);
+        robot.rightDrive.setPower(rightPower);
     }
 
     public void polarAxisValueTurning() {
