@@ -40,6 +40,11 @@ public class OutreachBotTeleOp extends OpMode {
         polarAxisValueTurning();
         robot.leftDrive.setPower(leftPower);
         robot.rightDrive.setPower(rightPower);
+
+        telemetry.addData("left power", leftPower);
+        telemetry.addData("right power", rightPower);
+        telemetry.addData("override", gamepadOverride);
+        telemetry.update();
     }
 
     public void polarAxisValueTurning() {
@@ -66,16 +71,8 @@ public class OutreachBotTeleOp extends OpMode {
     }
 
     public void overrideControllerCheck() {
-        if (masterGamepad.areButtonsActive()) {
-            gamepadOverride = true;
-        } else {
-            gamepadOverride = false;
-        }
-
-        if(masterGamepad.x.isInitialPress() && gamepadOverride){
-            gamepadOverride = false;
-        }else if(masterGamepad.x.isInitialPress() && !gamepadOverride){
-            gamepadOverride = true;
+        if(masterGamepad.x.isInitialPress()) {
+            gamepadOverride = !gamepadOverride;
         }
 
         if(gamepadOverride || masterGamepad.areButtonsActive()){

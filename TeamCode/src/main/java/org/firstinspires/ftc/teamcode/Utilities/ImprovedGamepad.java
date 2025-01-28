@@ -152,7 +152,7 @@ public class ImprovedGamepad {
         return dpad_left.isPressed() || dpad_down.isPressed() || dpad_up.isPressed() || dpad_right.isPressed() ||
                 a.isPressed() || b.isPressed() || x.isPressed() || y.isPressed() ||
                 right_bumper.isPressed() || left_bumper.isPressed() || right_trigger.isPressed() ||
-                left_trigger.isPressed() || right_stick.click.isPressed() || left_stick.click.isPressed();
+                left_trigger.isPressed() || right_stick.click.isPressed() || left_stick.click.isPressed() || left_stick.radius.getValue() != 0 || right_stick.radius.getValue() != 0;
     }
 
     UpdateWatchdog watchdog = new UpdateWatchdog();
