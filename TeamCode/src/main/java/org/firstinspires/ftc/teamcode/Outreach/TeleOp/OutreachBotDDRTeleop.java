@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "Outreach Bot DDR Dance V3", group = "Outreach")
+@TeleOp(name = "OutreachBot DDR", group = "OutreachBot")
 public class OutreachBotDDRTeleop extends OpMode {
     OutreachBotHardware robot = new OutreachBotHardware();
     ElapsedTime timer = new ElapsedTime();

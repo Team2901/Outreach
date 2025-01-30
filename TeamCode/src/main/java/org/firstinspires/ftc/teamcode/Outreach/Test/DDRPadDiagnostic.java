@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Outreach.TeleOp;
+package org.firstinspires.ftc.teamcode.Outreach.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "DDR Pad Diagnostic", group = "Outreach")
+@TeleOp(name = "DDR Pad Diagnostic", group = "Test")
 public class DDRPadDiagnostic extends OpMode {
     static DDRGamepad participantGamepad;
 

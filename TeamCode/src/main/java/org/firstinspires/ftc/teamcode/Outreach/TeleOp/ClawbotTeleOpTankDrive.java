@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot TeleOp Tank Drive", group="Outreach")
+@TeleOp(name="Clawbot Tank Drive", group="Clawbot")
 public class ClawbotTeleOpTankDrive extends OpMode {
     public enum Controller{PARTICIPANT, MASTER}
     public ImprovedGamepad gamepad;

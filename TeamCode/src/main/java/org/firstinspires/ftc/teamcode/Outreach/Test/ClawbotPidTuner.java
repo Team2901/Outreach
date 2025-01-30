@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Outreach.TeleOp;
+package org.firstinspires.ftc.teamcode.Outreach.Test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot PID Tuner", group="Outreach")
+@TeleOp(name="Clawbot PID Tuner", group="Test")
 public class ClawbotPidTuner extends OpMode {
     public ImprovedGamepad gamepad;
     public double voltage;

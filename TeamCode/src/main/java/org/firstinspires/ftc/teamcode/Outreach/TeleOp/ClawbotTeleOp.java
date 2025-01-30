@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
  //Created by Jerdenn25556 on 2/14/2023.
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot Teleop", group="Outreach")
+@TeleOp(name="Clawbot", group="Clawbot")
 public class ClawbotTeleOp extends OpMode {
 
     public ImprovedGamepad gamepad;
