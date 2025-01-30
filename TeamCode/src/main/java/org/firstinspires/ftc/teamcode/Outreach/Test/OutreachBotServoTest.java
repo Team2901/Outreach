@@ -21,8 +21,8 @@ public class OutreachBotServoTest extends OpMode {
     List<Map.Entry<String, Servo>> servoList = new ArrayList<>();
     Integer activeIndex = (0);
     double set_position = 0.2;
-    double position_max = 0.46;
-    double position_min = 0.2;
+    double position_max = 1;
+    double position_min = 0;
 
     public void help(){
         telemetry.addLine("Use Dpad to choose motor");

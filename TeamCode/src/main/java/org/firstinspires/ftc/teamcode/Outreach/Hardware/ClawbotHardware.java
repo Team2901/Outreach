@@ -25,10 +25,10 @@ public class ClawbotHardware {
     public static double Kpg = .45;
 
     public static final double MINIMUM_ARM_TARGET = 1.2;
-    public static final double TURN_WEIGHT = 1.25;
+    public static final double TURN_WEIGHT = 3;
     public static final double STRAIGHT_POWER_WEIGHT = 2.0;
-    public static final double CLAW_OPEN_POSITION = 0.2;
-    public static final double CLAW_CLOSED_POSITION = 0.48;
+    public static final double CLAW_OPEN_POSITION = 0.3;
+    public static final double CLAW_CLOSED_POSITION = 0.66;
     public DcMotorEx leftDrive;
     public DcMotorEx rightDrive;
     public DcMotorEx arm;

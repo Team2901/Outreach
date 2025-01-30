@@ -35,11 +35,21 @@ public class OutreachBotTeleOp extends OpMode {
         gamepad.update();
         masterGamepad.update();
         overrideControllerCheck();
-        rightPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
+        /* rightPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         leftPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) + (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
-        polarAxisValueTurning();
+        polarAxisValueTurning(); */
+        rightPower = (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
+        leftPower = (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT)  + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         robot.leftDrive.setPower(leftPower);
         robot.rightDrive.setPower(rightPower);
+
+        if (gamepadInControl.left_bumper.isPressed() || gamepadInControl.left_trigger.isPressed()){
+            robot.claw.setPosition(ClawbotHardware.CLAW_OPEN_POSITION);
+        }
+
+        if (gamepadInControl.right_bumper.isPressed() || gamepadInControl.right_trigger.isPressed()){
+            robot.claw.setPosition(ClawbotHardware.CLAW_CLOSED_POSITION);
+        }
 
         telemetry.addData("left power", leftPower);
         telemetry.addData("right power", rightPower);
