@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Outreach.Hardware;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,7 +20,7 @@ public class ClawbotHardware {
     public static double Kp = 0.4;
     public static double Ki = 0.00;
     public static double Kd = 0.00001;
-            //0.00002;
+    //0.00002;
 
     public static double Kpg = .45;
 
@@ -34,13 +34,14 @@ public class ClawbotHardware {
     public DcMotorEx arm;
     public Servo claw;
     public AnalogInput potentiometer;
+
     public enum ArmState {GROUND, LOW, MEDIUM, HIGH}
+
     public enum ClawState {OPEN, CLOSED}
 
     public ClawState currentClawState = ClawState.OPEN;
 
     public ArmState currentArmState = ArmState.GROUND;
-
 
 
     public void init(HardwareMap hardwareMap) {

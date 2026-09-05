@@ -1,14 +1,11 @@
-package org.firstinspires.ftc.teamcode.Utilities;
+package org.firstinspires.ftc.teamcode.utilities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -96,31 +93,5 @@ public class FileUtilities {
         }
 
         return config;
-    }
-
-    public static void writeBitmapFile(String filename, Bitmap bitmap) throws IOException {
-        final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + PICTURES_FOLDER_NAME;
-
-        try (FileOutputStream fileOutputStream = new FileOutputStream(filePath + "/" + filename)) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-        }
-    }
-
-    public static Bitmap readBitmapFile(String filename) {
-
-        final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + PICTURES_FOLDER_NAME;
-        final File image = new File(filePath, filename);
-
-        final BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap bitmap;
-
-        try {
-            bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(), bmOptions);
-        } catch (Exception e) {
-            bitmap = null;
-        }
-
-        return bitmap;
     }
 }

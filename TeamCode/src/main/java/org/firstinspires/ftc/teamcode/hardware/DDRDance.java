@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.Outreach.Hardware;
+package org.firstinspires.ftc.teamcode.hardware;
 
-import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
+import org.firstinspires.ftc.teamcode.utilities.DDRGamepad;
 
 import java.util.ArrayList;
 
@@ -8,21 +8,18 @@ import java.util.ArrayList;
 
 public class DDRDance {
 
-    public enum DanceMoves { LEFT, RIGHT, UP, DOWN, X, O }
-    private enum ProgressState { COMPLETED, AWAITING, FAILED}
+    public int progress = 0;
     private ArrayList<DanceMoves> danceMoves;
     private DDRGamepad gamepad;
     private DanceObserver observer;
-    public int progress = 0;
-
-     public DDRDance(ArrayList<DanceMoves> moves, DDRGamepad ddrGamepad, DanceObserver danceObserver) {
+    public DDRDance(ArrayList<DanceMoves> moves, DDRGamepad ddrGamepad, DanceObserver danceObserver) {
         danceMoves = moves;
         gamepad = ddrGamepad;
         observer = danceObserver;
     }
 
     public void update() {
-         ProgressState currentState = checkDance(danceMoves.get(progress));
+        ProgressState currentState = checkDance(danceMoves.get(progress));
         if (currentState == ProgressState.COMPLETED) {
             progress++;
             observer.onSuccess();
@@ -84,5 +81,9 @@ public class DDRDance {
         }
         return ProgressState.AWAITING;
     }
+
+    public enum DanceMoves {LEFT, RIGHT, UP, DOWN, X, O}
+
+    private enum ProgressState {COMPLETED, AWAITING, FAILED}
 
 }

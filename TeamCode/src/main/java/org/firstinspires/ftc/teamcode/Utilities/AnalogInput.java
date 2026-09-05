@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utilities;
+package org.firstinspires.ftc.teamcode.utilities;
 
 public class AnalogInput extends InputMechanism<Double> {
     private final boolean invertAxis;

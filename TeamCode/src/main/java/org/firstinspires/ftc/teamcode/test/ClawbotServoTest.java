@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode.Outreach.Test;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
-import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
+import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 import java.util.ArrayList;
 import java.util.List;

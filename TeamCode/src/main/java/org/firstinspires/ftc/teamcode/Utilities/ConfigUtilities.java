@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utilities;
+package org.firstinspires.ftc.teamcode.utilities;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 
-@SuppressWarnings("unused")
 public class ConfigUtilities {
 
     private static Context getContext() {
@@ -22,7 +21,6 @@ public class ConfigUtilities {
             throw new IllegalArgumentException("No context could be retrieved!");
         }
     }
-
     public static String getRobotConfigurationName() {
         Context context = getContext();
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(context);

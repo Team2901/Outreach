@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.Outreach.Test;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
+import org.firstinspires.ftc.teamcode.utilities.DDRGamepad;
 
 @SuppressWarnings("unused")
 @TeleOp(name = "DDR Pad Diagnostic", group = "Test")

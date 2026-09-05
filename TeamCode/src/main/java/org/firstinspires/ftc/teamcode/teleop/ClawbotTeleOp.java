@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.Outreach.TeleOp;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
+import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
  /*
  * New Control Clawbot Teleop: Similar to NewClawBotTeleOp but it implements a new control method
  * For simplicity we will have 4 motor directions: RF(Right forward), RB(Right Backwards), LF(Left

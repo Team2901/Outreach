@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.Outreach.TeleOp;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.DDRDance;
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.DanceObserver;
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
-import org.firstinspires.ftc.teamcode.Utilities.DDRGamepad;
-import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.hardware.DDRDance;
+import org.firstinspires.ftc.teamcode.hardware.DanceObserver;
+import org.firstinspires.ftc.teamcode.hardware.OutreachBotHardware;
+import org.firstinspires.ftc.teamcode.utilities.DDRGamepad;
+import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 import java.util.ArrayList;
 

@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode.Outreach.Test;
+package org.firstinspires.ftc.teamcode.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.ClawbotHardware;
-import org.firstinspires.ftc.teamcode.Outreach.Hardware.OutreachBotHardware;
-import org.firstinspires.ftc.teamcode.Utilities.ImprovedGamepad;
+import org.firstinspires.ftc.teamcode.hardware.OutreachBotHardware;
+import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "Clawbot Motor Test", group = "test")
-public class ClawbotMotorTest extends OpMode {
-    public ClawbotHardware robot = new ClawbotHardware();
+@TeleOp(name = "Outreach Bot Motor Test", group = "test")
+public class OutreachBotMotorTest extends OpMode {
+    public OutreachBotHardware robot = new OutreachBotHardware();
     List<Map.Entry<String, DcMotor>> dcMotorList = new ArrayList<>();
     Integer activeIndex = (0);
     public ImprovedGamepad gamepad;
