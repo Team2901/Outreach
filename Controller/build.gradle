@@ -1,0 +1,169 @@
+/*
+ * :Controller  -  the Virtual Robot simulator.
+ *
+ * This is a PLAIN JAVA + JavaFX desktop application, completely independent of the
+ * Android robot-controller build.  It carries its own hand-written, source-level
+ * "approximation" of the FTC SDK (com.qualcomm.**, org.firstinspires.ftc.robotcore.**,
+ * org.firstinspires.ftc.vision.**) under src/, plus small android/androidx compile
+ * shims.  It must NOT depend on :FtcRobotController and must NOT pull the real FTC
+ * AARs - the com.qualcomm.* symbols here resolve only to the stub source.  (Those FTC
+ * artifacts are Android AARs anyway, which a plain-Java module cannot consume.)
+ *
+ * Limelight (com.qualcomm.hardware.limelightvision) and Panels (com.bylazar.*) are
+ * ALSO stubbed under src/ - the simulator has no camera and no web dashboard, so those
+ * stubs accept every call and report "nothing detected" / forward telemetry to the
+ * simulator's own window. OpModes using them compile and run; they just never see a
+ * target.
+ *
+ * PedroPathing is NOT stubbed: the simulator pulls the same artifacts the robot does,
+ * so paths really are followed here. See the dependencies block below.
+ *
+ * It compiles the SAME OpMode files that the Android :TeamCode module compiles.
+ * We do NOT add ../TeamCode/src/main/java directly as a source root: IntelliJ /
+ * Android Studio require every source root to belong to exactly one module, so
+ * sharing the folder with :TeamCode triggers "Duplicate content roots detected".
+ * Instead the 'syncSharedOpModes' task copies the sim-compatible OpMode files into
+ * build/shared-opmodes (a generated dir the IDE ignores) and that is the source
+ * root.  Edit OpModes in TeamCode/src/main/java as usual; the copy refreshes on
+ * every :Controller build.
+ *
+ * Run it with:   ./gradlew :Controller:run
+ */
+
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+/*
+ * No explicit Java toolchain: this module simply compiles and runs with whatever
+ * JVM runs Gradle.  Gradle 9.1 already requires JDK 17+, and Android Studio's
+ * bundled JBR (21) satisfies it, so the simulator always gets a modern JVM while
+ * the Android modules keep their own sourceCompatibility 1.8.
+ */
+
+javafx {
+    version = '17.0.6'
+    // The simulator is FXML + Controls only (no javafx.media / javafx.swing usage found).
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
+}
+
+application {
+    mainClass = 'virtual_robot.controller.VirtualRobotApplication'
+}
+
+repositories {
+    mavenCentral()
+}
+
+/*
+ * PedroPathing - keep this in sync with build.dependencies.gradle, so the simulator and
+ * the physical robot run the SAME path follower.
+ *
+ * ':core' is a plain, pure-JVM jar (no Android, no FTC SDK) and is consumed directly.
+ * ':ftc' - the layer that binds the follower to DcMotors, the IMU and the Pinpoint - is
+ * published as an AAR, which a plain-Java module cannot consume. That AAR turns out to
+ * hold nothing but a manifest and classes.jar, so extractPedroPathingFtc below unpacks
+ * the jar and puts that on the classpath. Its com.qualcomm.* calls then bind to the
+ * simulator's stub SDK.
+ */
+def pedroPathingVersion = '2.1.2'
+def pedroPathingTelemetryVersion = '1.0.0'   // com.pedropathing:telemetry - SelectableOpMode
+def pedroPathingIvyVersion = '1.0.0'         // com.pedropathing:ivy - command scheduler
+
+// ---- OpModes the stub SDK cannot compile: kept out of the SIMULATOR build only ----
+// (they still build and deploy on the physical robot via :TeamCode.)
+// Nothing is currently excluded: every OpMode in TeamCode compiles for the simulator.
+def simIncompatibleOpModes = [
+]
+
+def sharedOpModesDir = layout.buildDirectory.dir('shared-opmodes')
+
+def syncSharedOpModes = tasks.register('syncSharedOpModes', Sync) {
+    description = 'Copies the sim-compatible TeamCode OpModes into a generated source dir.'
+    from(rootProject.file('TeamCode/src/main/java')) {
+        exclude simIncompatibleOpModes
+    }
+    into sharedOpModesDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+            srcDir(files(sharedOpModesDir).builtBy(syncSharedOpModes))
+        }
+        // package the FXML / .bmp field images / robot geometry that live next to the source
+        resources {
+            srcDirs = ['src']
+            exclude '**/*.java'
+        }
+    }
+}
+
+configurations {
+    // PedroPathing AARs, fetched so we can unpack their classes.jar (see below).
+    pedroPathingFtcAar { transitive = false }
+    pedroPathingTelemetryAar { transitive = false }
+    pedroPathingIvyAar { transitive = false }
+}
+
+def pedroPathingFtcJar = layout.buildDirectory.file("pedropathing/pedropathing-ftc-${pedroPathingVersion}.jar")
+def pedroPathingTelemetryJar = layout.buildDirectory.file("pedropathing/pedropathing-telemetry-${pedroPathingTelemetryVersion}.jar")
+def pedroPathingIvyJar = layout.buildDirectory.file("pedropathing/pedropathing-ivy-${pedroPathingIvyVersion}.jar")
+
+def extractPedroPathingFtc = tasks.register('extractPedroPathingFtc', Copy) {
+    description = "Unpacks classes.jar from the PedroPathing ftc AAR so a plain-Java module can use it."
+    from({ configurations.pedroPathingFtcAar.collect { zipTree(it) } }) {
+        include 'classes.jar'
+    }
+    into pedroPathingFtcJar.map { it.asFile.parentFile }
+    rename 'classes.jar', "pedropathing-ftc-${pedroPathingVersion}.jar"
+}
+
+/*
+ * com.pedropathing:telemetry supplies SelectableOpMode, the menu-driven OpMode that
+ * pedroPathing/Tuning.java extends. Despite living alongside the Panels dashboard it
+ * depends on nothing but OpMode, Gamepad and Telemetry, so it binds cleanly to the
+ * simulator's stub SDK.
+ */
+def extractPedroPathingTelemetry = tasks.register('extractPedroPathingTelemetry', Copy) {
+    description = "Unpacks classes.jar from the PedroPathing telemetry AAR (SelectableOpMode)."
+    from({ configurations.pedroPathingTelemetryAar.collect { zipTree(it) } }) {
+        include 'classes.jar'
+    }
+    into pedroPathingTelemetryJar.map { it.asFile.parentFile }
+    rename 'classes.jar', "pedropathing-telemetry-${pedroPathingTelemetryVersion}.jar"
+}
+
+/*
+ * com.pedropathing:ivy is the command scheduler that pedroPathing/examples/IvyAuto.java
+ * builds on. It references nothing outside com.pedropathing, so unlike the ftc layer it
+ * cannot depend on a gap in the SDK approximation.
+ */
+def extractPedroPathingIvy = tasks.register('extractPedroPathingIvy', Copy) {
+    description = "Unpacks classes.jar from the PedroPathing ivy AAR (command scheduler)."
+    from({ configurations.pedroPathingIvyAar.collect { zipTree(it) } }) {
+        include 'classes.jar'
+    }
+    into pedroPathingIvyJar.map { it.asFile.parentFile }
+    rename 'classes.jar', "pedropathing-ivy-${pedroPathingIvyVersion}.jar"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    pedroPathingFtcAar "com.pedropathing:ftc:${pedroPathingVersion}@aar"
+    pedroPathingTelemetryAar "com.pedropathing:telemetry:${pedroPathingTelemetryVersion}@aar"
+    pedroPathingIvyAar "com.pedropathing:ivy:${pedroPathingIvyVersion}@aar"
+
+    implementation "com.pedropathing:core:${pedroPathingVersion}"
+    implementation files(pedroPathingFtcJar) { builtBy extractPedroPathingFtc }
+    implementation files(pedroPathingTelemetryJar) { builtBy extractPedroPathingTelemetry }
+    implementation files(pedroPathingIvyJar) { builtBy extractPedroPathingIvy }
+}
+
+tasks.named('run') {
+    // Closing the simulator window must not fail the Gradle build.
+    ignoreExitValue = true
+}

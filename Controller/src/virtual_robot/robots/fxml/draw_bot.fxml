@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+
+<!--
+    Draw Bot: four wheels arranged in an X. The two driven wheels sit on one diagonal - green at the
+    front right, gold at the back left - and two passive casters on the other. turnMotor steers the
+    driven pair, each pivoting in place about its own axis, so they keep their corners and only their
+    heading changes. The casters just swivel to follow wherever the bot is going.
+
+    Like every other robot fxml this is drawn in a 75x75 coordinate space, and the TOP of the file is
+    the robot's forward direction. The lowest layer must be the 75x75 chassis rectangle.
+
+    The LIME strip along the top edge marks the chassis front. It does NOT move, which is the point:
+    the chassis holds its heading no matter where the wheels are pointed.
+
+    The wheel pivot points below are mirrored by constants in DrawBot.java. Move a wheel here and you
+    have to move it there too, or it will rotate about the wrong spot.
+-->
+<Group xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+       fx:controller="virtual_robot.robots.classes.DrawBot">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#eceff1" height="75.0" stroke="BLACK" strokeType="INSIDE" width="75.0" />
+        <Rectangle fill="LIME" height="6.0" stroke="BLACK" strokeType="INSIDE" width="65.0" x="5.0" y="0.0" />
+
+        <!-- The X the wheels are mounted on. -->
+        <Line endX="53.0" endY="53.0" startX="22.0" startY="22.0" stroke="#90a4ae" strokeWidth="4.0" />
+        <Line endX="22.0" endY="53.0" startX="53.0" startY="22.0" stroke="#90a4ae" strokeWidth="4.0" />
+
+        <!-- Passive caster, top left. Pivot at (22, 22), wheel trailing behind it. -->
+        <Group fx:id="casterTopLeft">
+            <children>
+                <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#78909c" height="10.0" stroke="BLACK" strokeType="INSIDE" width="5.0" x="19.5" y="21.0" />
+                <Circle centerX="22.0" centerY="22.0" fill="#455a64" radius="2.5" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </Group>
+
+        <!-- Passive caster, bottom right. Pivot at (53, 53). -->
+        <Group fx:id="casterBottomRight">
+            <children>
+                <Rectangle arcHeight="2.0" arcWidth="2.0" fill="#78909c" height="10.0" stroke="BLACK" strokeType="INSIDE" width="5.0" x="50.5" y="52.0" />
+                <Circle centerX="53.0" centerY="53.0" fill="#455a64" radius="2.5" stroke="BLACK" strokeType="INSIDE" />
+            </children>
+        </Group>
+
+        <!-- Driven wheel, front right, on greenDriveMotor. Pivot at (53, 22). Red tick is its forward end. -->
+        <Group fx:id="greenWheel">
+            <children>
+                <Rectangle arcHeight="3.0" arcWidth="3.0" fill="LIMEGREEN" height="18.0" stroke="BLACK" strokeType="INSIDE" width="7.0" x="49.5" y="13.0" />
+                <Rectangle fill="#e53935" height="3.5" stroke="BLACK" strokeType="INSIDE" width="4.0" x="51.0" y="10.5" />
+            </children>
+        </Group>
+
+        <!-- Driven wheel, back left, on goldDriveMotor. Pivot at (22, 53). -->
+        <Group fx:id="goldWheel">
+            <children>
+                <Rectangle arcHeight="3.0" arcWidth="3.0" fill="GOLD" height="18.0" stroke="BLACK" strokeType="INSIDE" width="7.0" x="18.5" y="44.0" />
+                <Rectangle fill="#e53935" height="3.5" stroke="BLACK" strokeType="INSIDE" width="4.0" x="20.0" y="41.5" />
+            </children>
+        </Group>
+
+        <!-- The pen. Its track across the field is drawn by the Polyline that DrawBot adds to the field pane. -->
+        <Circle centerX="37.5" centerY="37.5" fill="#111111" radius="3.5" stroke="BLACK" strokeType="INSIDE" />
+    </children>
+</Group>

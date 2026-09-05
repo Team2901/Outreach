@@ -41,7 +41,9 @@ captures/
 
 # IntelliJ
 *.iml
-.idea/
+.idea/*
+# ...but do share the simulator (and other) Gradle run configurations
+!.idea/runConfigurations/
 
 # For Mac users
 .DS_Store
