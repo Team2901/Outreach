@@ -93,7 +93,7 @@ public class OutreachBotDDRTeleop extends OpMode {
                 if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = -.4;
                     rightSpeed = .4;
-                } else if (leftSpeed > 0){
+                } else if (leftSpeed > 0) {
                     rightSpeed = .65;
                 } else {
                     rightSpeed = -.65;
@@ -102,7 +102,7 @@ public class OutreachBotDDRTeleop extends OpMode {
                 if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = .4;
                     rightSpeed = -.4;
-                } else if (leftSpeed > 0){
+                } else if (leftSpeed > 0) {
                     rightSpeed = -.65;
                 } else {
                     rightSpeed = .65;
@@ -194,8 +194,7 @@ public class OutreachBotDDRTeleop extends OpMode {
         }
     }
 
-    private class SpeedDanceObserver implements DanceObserver
-    {
+    private class SpeedDanceObserver implements DanceObserver {
         @Override
         public void onCompleted() {
             speedBoostFactor = 1.5;
@@ -207,8 +206,7 @@ public class OutreachBotDDRTeleop extends OpMode {
         }
     }
 
-    private class SuperSpeedDanceObserver implements DanceObserver
-    {
+    private class SuperSpeedDanceObserver implements DanceObserver {
         @Override
         public void onCompleted() {
             speedBoostFactor = 2;
@@ -220,8 +218,7 @@ public class OutreachBotDDRTeleop extends OpMode {
         }
     }
 
-    private class SpinDanceObserver implements DanceObserver
-    {
+    private class SpinDanceObserver implements DanceObserver {
         @Override
         public void onCompleted() {
             spinning = true;
@@ -233,7 +230,7 @@ public class OutreachBotDDRTeleop extends OpMode {
         }
     }
 
-    public void telemetry(){
+    public void telemetry() {
 //        telemetry.addData("Speed Dance Progress", speedDance.progress);
 //        telemetry.addData("Konami Dance Progress", konamiCode.progress);
 //        telemetry.addData("Spin Dance Progress", spinDance.progress);

@@ -49,13 +49,13 @@ public class OutreachBotMotorTest extends OpMode {
 
         dcMotorList.get(activeIndex).getValue().setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        if(gamepad.dpad_up.isInitialPress()){
+        if (gamepad.dpad_up.isInitialPress()) {
             dcMotorList.get(activeIndex).getValue().setPower(0);
         }
-        if(gamepad.dpad_up.isInitialPress()){
+        if (gamepad.dpad_up.isInitialPress()) {
             activeIndex++;
         }
-        if(activeIndex == dcMotorList.size()){
+        if (activeIndex == dcMotorList.size()) {
             activeIndex = 0;
         }
         y = gamepad.left_stick.y.getValue();

@@ -11,7 +11,9 @@ public class OutreachBotHardware {
     public DcMotor rightDrive = null;
     public Servo claw = null;
     private HardwareMap hardwareMap = null;
-    public enum ClawState { OPEN, CLOSED }
+
+    public enum ClawState {OPEN, CLOSED}
+
     public final double CLOSED_POSITION = 0;
     public final double OPEN_POSITION = 0.75;
     public ClawState currentClawState = ClawState.CLOSED;

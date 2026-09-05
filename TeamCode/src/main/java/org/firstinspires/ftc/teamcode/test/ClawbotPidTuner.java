@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot PID Tuner", group="Test")
+@TeleOp(name = "Clawbot PID Tuner", group = "Test")
 public class ClawbotPidTuner extends OpMode {
     public ImprovedGamepad gamepad;
     public double voltage;
@@ -33,6 +33,7 @@ public class ClawbotPidTuner extends OpMode {
     public boolean gamepadOverride = false;
 
     ClawbotHardware robot = new ClawbotHardware();
+
     @Override
     public void init() {
         gamepad = new ImprovedGamepad(gamepad1, gamepadTimer, "gamepad");
@@ -99,7 +100,7 @@ public class ClawbotPidTuner extends OpMode {
                 result = Math.min(result, voltage);
             }
         }
-        double scaleFactor = 12/result;
+        double scaleFactor = 12 / result;
         voltage = scaleFactor * robot.potentiometer.getVoltage();
     }
 
@@ -117,43 +118,39 @@ public class ClawbotPidTuner extends OpMode {
 // Elapsed timer class from SDK, please use it, it's epic
         ElapsedTime timer = new ElapsedTime();
 
-            // calculate the error
-            double error = voltage - goalPositon;
+        // calculate the error
+        double error = voltage - goalPositon;
 
-            // rate of change of the error
-            double derivative = (error - lastError) / timer.seconds();
+        // rate of change of the error
+        double derivative = (error - lastError) / timer.seconds();
 
-            // sum of all error over time
-            integralSum = integralSum + (error * timer.seconds());
+        // sum of all error over time
+        integralSum = integralSum + (error * timer.seconds());
 
-            double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
+        double out = (ClawbotHardware.Kp * error) + (ClawbotHardware.Ki * integralSum) + (ClawbotHardware.Kd * derivative);
 
-            robot.arm.setPower(out);
+        robot.arm.setPower(out);
 
-            lastError = error;
+        lastError = error;
 
-            // reset the timer for next time
-            PIDtimer.reset();
+        // reset the timer for next time
+        PIDtimer.reset();
 
     }
 
 
     public void overrideControllerCheck() {
-        if (masterGamepad.areButtonsActive()) {
-            gamepadOverride = true;
-        } else {
-            gamepadOverride = false;
-        }
+        gamepadOverride = masterGamepad.areButtonsActive();
 
-        if(masterGamepad.x.isInitialPress() && gamepadOverride){
+        if (masterGamepad.x.isInitialPress() && gamepadOverride) {
             gamepadOverride = false;
-        }else if(masterGamepad.x.isInitialPress() && !gamepadOverride){
+        } else if (masterGamepad.x.isInitialPress() && !gamepadOverride) {
             gamepadOverride = true;
         }
 
-        if(gamepadOverride || masterGamepad.areButtonsActive()){
+        if (gamepadOverride || masterGamepad.areButtonsActive()) {
             gamepadInControl = masterGamepad;
-        }else{
+        } else {
             gamepadInControl = gamepad;
         }
     }

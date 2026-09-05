@@ -9,9 +9,10 @@ import java.util.ArrayList;
 public class DDRDance {
 
     public int progress = 0;
-    private ArrayList<DanceMoves> danceMoves;
-    private DDRGamepad gamepad;
-    private DanceObserver observer;
+    private final ArrayList<DanceMoves> danceMoves;
+    private final DDRGamepad gamepad;
+    private final DanceObserver observer;
+
     public DDRDance(ArrayList<DanceMoves> moves, DDRGamepad ddrGamepad, DanceObserver danceObserver) {
         danceMoves = moves;
         gamepad = ddrGamepad;

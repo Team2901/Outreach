@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
- /*
+/*
  * New Control Clawbot Teleop: Similar to NewClawBotTeleOp but it implements a new control method
  * For simplicity we will have 4 motor directions: RF(Right forward), RB(Right Backwards), LF(Left
  * forward), LB(Left Backwards)
@@ -26,12 +26,12 @@ import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
  * The goal is to create a more natural feeling drive.
  * The arm of the robot uses a potentiometer and state machines
  * The clas of the robot is a servo and uses state machines
-  */
+ */
 
- //Created by Jerdenn25556 on 2/14/2023.
+//Created by Jerdenn25556 on 2/14/2023.
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot", group="Clawbot")
+@TeleOp(name = "Clawbot", group = "Clawbot")
 public class ClawbotTeleOp extends OpMode {
 
     public ImprovedGamepad gamepad;
@@ -53,6 +53,7 @@ public class ClawbotTeleOp extends OpMode {
     public boolean gamepadOverride = false;
 
     ClawbotHardware robot = new ClawbotHardware();
+
     @Override
     public void init() {
         gamepad = new ImprovedGamepad(gamepad1, gamepadTimer, "gamepad");
@@ -103,13 +104,13 @@ public class ClawbotTeleOp extends OpMode {
          */
 
         if (gamepadInControl.left_stick.y.getValue() > .9 && gamepadInControl.right_stick.y.getValue() < -.9) {
-            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25) ) {
+            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25)) {
                 leftPower = 1;
                 rightPower = -1;
             }
         }
 
-        if (gamepadInControl.right_stick.y.getValue() > .9 && gamepadInControl.left_stick.y.getValue() < -.9 ) {
+        if (gamepadInControl.right_stick.y.getValue() > .9 && gamepadInControl.left_stick.y.getValue() < -.9) {
             if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25)) {
                 leftPower = -1;
                 rightPower = 1;
@@ -125,7 +126,7 @@ public class ClawbotTeleOp extends OpMode {
                 result = Math.min(result, voltage);
             }
         }
-        double scaleFactor = 12/result;
+        double scaleFactor = 12 / result;
         voltage = scaleFactor * robot.potentiometer.getVoltage();
     }
 
@@ -170,10 +171,10 @@ public class ClawbotTeleOp extends OpMode {
     }
 
     public void stateMachineUpdate() {
-        switch(robot.currentClawState){
+        switch (robot.currentClawState) {
             case OPEN:
                 robot.claw.setPosition(ClawbotHardware.CLAW_OPEN_POSITION);
-                if(gamepadInControl.b.isInitialPress()){
+                if (gamepadInControl.b.isInitialPress()) {
                     robot.currentClawState = ClawbotHardware.ClawState.CLOSED;
                 } else if (gamepadInControl.right_bumper.getValue() || gamepadInControl.right_trigger.getValue() > 0) {
                     robot.currentClawState = ClawbotHardware.ClawState.CLOSED;
@@ -181,7 +182,7 @@ public class ClawbotTeleOp extends OpMode {
                 break;
             case CLOSED:
                 robot.claw.setPosition(ClawbotHardware.CLAW_CLOSED_POSITION);
-                if(gamepadInControl.b.isInitialPress()){
+                if (gamepadInControl.b.isInitialPress()) {
                     robot.currentClawState = ClawbotHardware.ClawState.OPEN;
                 } else if (gamepadInControl.left_bumper.getValue() || gamepadInControl.left_trigger.getValue() > 0) {
                     robot.currentClawState = ClawbotHardware.ClawState.OPEN;
@@ -192,21 +193,17 @@ public class ClawbotTeleOp extends OpMode {
     }
 
     public void overrideControllerCheck() {
-        if (masterGamepad.areButtonsActive()) {
-            gamepadOverride = true;
-        } else {
-            gamepadOverride = false;
-        }
+        gamepadOverride = masterGamepad.areButtonsActive();
 
-        if(masterGamepad.x.isInitialPress() && gamepadOverride){
+        if (masterGamepad.x.isInitialPress() && gamepadOverride) {
             gamepadOverride = false;
-        }else if(masterGamepad.x.isInitialPress() && !gamepadOverride){
+        } else if (masterGamepad.x.isInitialPress() && !gamepadOverride) {
             gamepadOverride = true;
         }
 
-        if(gamepadOverride || masterGamepad.areButtonsActive()){
+        if (gamepadOverride || masterGamepad.areButtonsActive()) {
             gamepadInControl = masterGamepad;
-        }else{
+        } else {
             gamepadInControl = gamepad;
         }
     }

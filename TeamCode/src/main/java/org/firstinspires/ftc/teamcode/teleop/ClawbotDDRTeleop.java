@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.utilities.DDRGamepad;
 import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name="Clawbot DDR", group="Clawbot")
+@TeleOp(name = "Clawbot DDR", group = "Clawbot")
 public class ClawbotDDRTeleop extends OpMode {
     public ImprovedGamepad gamepad;
     public double voltage;
@@ -27,6 +27,7 @@ public class ClawbotDDRTeleop extends OpMode {
     public boolean gamepadOverride = false;
 
     ClawbotHardware robot = new ClawbotHardware();
+
     @Override
     public void init() {
         robot.init(hardwareMap);
@@ -68,7 +69,7 @@ public class ClawbotDDRTeleop extends OpMode {
                 if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = -.4;
                     rightSpeed = .4;
-                } else if (leftSpeed > 0){
+                } else if (leftSpeed > 0) {
                     rightSpeed = .65;
                 } else {
                     rightSpeed = -.65;
@@ -77,7 +78,7 @@ public class ClawbotDDRTeleop extends OpMode {
                 if (rightSpeed == 0 && leftSpeed == 0) {
                     leftSpeed = .4;
                     rightSpeed = -.4;
-                } else if (leftSpeed > 0){
+                } else if (leftSpeed > 0) {
                     rightSpeed = -.65;
                 } else {
                     rightSpeed = .65;

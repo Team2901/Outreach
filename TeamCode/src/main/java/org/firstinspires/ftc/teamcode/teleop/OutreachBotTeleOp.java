@@ -39,15 +39,15 @@ public class OutreachBotTeleOp extends OpMode {
         leftPower = (gamepadInControl.left_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT) + (gamepadInControl.right_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         polarAxisValueTurning(); */
         rightPower = (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) - (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
-        leftPower = (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT)  + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
+        leftPower = (gamepadInControl.right_stick.y.getValue() / ClawbotHardware.STRAIGHT_POWER_WEIGHT) + (gamepadInControl.left_stick.x.getValue() / ClawbotHardware.TURN_WEIGHT);
         robot.leftDrive.setPower(leftPower);
         robot.rightDrive.setPower(rightPower);
 
-        if (gamepadInControl.left_bumper.isPressed() || gamepadInControl.left_trigger.isPressed()){
+        if (gamepadInControl.left_bumper.isPressed() || gamepadInControl.left_trigger.isPressed()) {
             robot.claw.setPosition(ClawbotHardware.CLAW_OPEN_POSITION);
         }
 
-        if (gamepadInControl.right_bumper.isPressed() || gamepadInControl.right_trigger.isPressed()){
+        if (gamepadInControl.right_bumper.isPressed() || gamepadInControl.right_trigger.isPressed()) {
             robot.claw.setPosition(ClawbotHardware.CLAW_CLOSED_POSITION);
         }
 
@@ -66,13 +66,13 @@ public class OutreachBotTeleOp extends OpMode {
          */
 
         if (gamepadInControl.left_stick.y.getValue() > .9 && gamepadInControl.right_stick.y.getValue() < -.9) {
-            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25) ) {
+            if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25)) {
                 leftPower = 1;
                 rightPower = -1;
             }
         }
 
-        if (gamepadInControl.right_stick.y.getValue() > .9 && gamepadInControl.left_stick.y.getValue() < -.9 ) {
+        if (gamepadInControl.right_stick.y.getValue() > .9 && gamepadInControl.left_stick.y.getValue() < -.9) {
             if ((gamepadInControl.left_stick.x.getValue() < .25 && gamepadInControl.left_stick.x.getValue() > -.25) && (gamepadInControl.right_stick.x.getValue() < .25 && gamepadInControl.right_stick.x.getValue() > -.25)) {
                 leftPower = -1;
                 rightPower = 1;
@@ -81,13 +81,13 @@ public class OutreachBotTeleOp extends OpMode {
     }
 
     public void overrideControllerCheck() {
-        if(masterGamepad.x.isInitialPress()) {
+        if (masterGamepad.x.isInitialPress()) {
             gamepadOverride = !gamepadOverride;
         }
 
-        if(gamepadOverride || masterGamepad.areButtonsActive()){
+        if (gamepadOverride || masterGamepad.areButtonsActive()) {
             gamepadInControl = masterGamepad;
-        }else{
+        } else {
             gamepadInControl = gamepad;
         }
     }
