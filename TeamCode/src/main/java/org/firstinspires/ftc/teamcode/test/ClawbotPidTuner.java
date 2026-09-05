@@ -9,12 +9,10 @@ import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
 import org.firstinspires.ftc.teamcode.utilities.ImprovedGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "Clawbot PID Tuner", group = "Test")
+@TeleOp(name = "Clawbot PID Tuner", group = "test")
 public class ClawbotPidTuner extends OpMode {
     public ImprovedGamepad gamepad;
     public double voltage;
-    public ImprovedGamepad masterGamepad;
-    public ImprovedGamepad gamepadInControl;
     public ElapsedTime gamepadTimer = new ElapsedTime();
     public double rightPower = 0;
     public double leftPower = 0;
@@ -28,7 +26,7 @@ public class ClawbotPidTuner extends OpMode {
     double goalPositon = 2.5;
     boolean PIDRunning = true;
 
-    ElapsedTime PIDtimer = new ElapsedTime();
+    ElapsedTime PIDTimer = new ElapsedTime();
 
     public boolean gamepadOverride = false;
 
@@ -37,8 +35,6 @@ public class ClawbotPidTuner extends OpMode {
     @Override
     public void init() {
         gamepad = new ImprovedGamepad(gamepad1, gamepadTimer, "gamepad");
-        masterGamepad = new ImprovedGamepad(gamepad2, gamepadTimer, "masterGamepad");
-        gamepadInControl = null;
         robot.init(hardwareMap);
         telemetry();
     }
@@ -46,8 +42,6 @@ public class ClawbotPidTuner extends OpMode {
     @Override
     public void loop() {
         gamepad.update();
-        masterGamepad.update();
-        overrideControllerCheck();
 
         updatePIDValues();
         voltageRegulation();
@@ -68,25 +62,25 @@ public class ClawbotPidTuner extends OpMode {
     }
 
     public void updatePIDValues() {
-        if (gamepadInControl.left_bumper.isInitialPress()) {
+        if (gamepad.left_bumper.isInitialPress()) {
             increaseAmount *= 10;
-        } else if (gamepadInControl.right_bumper.isInitialPress()) {
+        } else if (gamepad.right_bumper.isInitialPress()) {
             increaseAmount /= 10;
         }
 
-        if (gamepadInControl.x.isInitialPress()) {
+        if (gamepad.x.isInitialPress()) {
             ClawbotHardware.Kp += increaseAmount;
-        } else if (gamepadInControl.y.isInitialPress()) {
+        } else if (gamepad.y.isInitialPress()) {
             ClawbotHardware.Kp -= increaseAmount;
-        } else if (gamepadInControl.a.isInitialPress()) {
+        } else if (gamepad.a.isInitialPress()) {
             ClawbotHardware.Ki += increaseAmount;
-        } else if (gamepadInControl.b.isInitialPress()) {
+        } else if (gamepad.b.isInitialPress()) {
             ClawbotHardware.Ki -= increaseAmount;
-        } else if (gamepadInControl.right_trigger.isInitialPress()) {
+        } else if (gamepad.right_trigger.isInitialPress()) {
             ClawbotHardware.Kd += increaseAmount;
-        } else if (gamepadInControl.left_trigger.isInitialPress()) {
+        } else if (gamepad.left_trigger.isInitialPress()) {
             ClawbotHardware.Kd -= increaseAmount;
-        } else if (gamepadInControl.dpad_left.isInitialPress()) {
+        } else if (gamepad.dpad_left.isInitialPress()) {
             PIDRunning = !PIDRunning;
         }
     }
@@ -110,9 +104,9 @@ public class ClawbotPidTuner extends OpMode {
             robot.arm.setPower(0);
             return;
         }
-        if (gamepadInControl.dpad_up.isPressed()) {
+        if (gamepad.dpad_up.isPressed()) {
             goalPositon -= increaseAmount;
-        } else if (gamepadInControl.dpad_down.isPressed()) {
+        } else if (gamepad.dpad_down.isPressed()) {
             goalPositon += increaseAmount;
         }
 // Elapsed timer class from SDK, please use it, it's epic
@@ -134,24 +128,7 @@ public class ClawbotPidTuner extends OpMode {
         lastError = error;
 
         // reset the timer for next time
-        PIDtimer.reset();
+        PIDTimer.reset();
 
-    }
-
-
-    public void overrideControllerCheck() {
-        gamepadOverride = masterGamepad.areButtonsActive();
-
-        if (masterGamepad.x.isInitialPress() && gamepadOverride) {
-            gamepadOverride = false;
-        } else if (masterGamepad.x.isInitialPress() && !gamepadOverride) {
-            gamepadOverride = true;
-        }
-
-        if (gamepadOverride || masterGamepad.areButtonsActive()) {
-            gamepadInControl = masterGamepad;
-        } else {
-            gamepadInControl = gamepad;
-        }
     }
 }

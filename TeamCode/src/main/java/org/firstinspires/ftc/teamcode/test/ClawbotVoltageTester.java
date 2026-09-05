@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.ClawbotHardware;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "Clawbot Voltage tester", group = "Test")
+@TeleOp(name = "Clawbot Voltage tester", group = "test")
 public class ClawbotVoltageTester extends OpMode {
 
     ClawbotHardware robot = new ClawbotHardware();

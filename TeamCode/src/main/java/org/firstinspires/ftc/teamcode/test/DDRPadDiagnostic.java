@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.utilities.DDRGamepad;
 
 @SuppressWarnings("unused")
-@TeleOp(name = "DDR Pad Diagnostic", group = "Test")
+@TeleOp(name = "DDR Pad Diagnostic", group = "test")
 public class DDRPadDiagnostic extends OpMode {
     static DDRGamepad participantGamepad;
 
